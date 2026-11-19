@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.algAdapter.mapper.AlgorithmMethodRegMapper">
+
+    <select id="selectPageRows" resultType="org.jeecg.modules.algAdapter.entity.AlgorithmMethodReg">
+        SELECT air.id,
+               air.class_id,
+               acr.class_name,
+               air.ky_category_id,
+               kc.name as algorithm_name,
+               kc.code as algorithm_id,
+               air.status,
+               air.remark,
+               air.create_by,
+               air.create_time,
+               air.update_by,
+               air.update_time
+        FROM algorithm_id_reg air
+                 left join algorithm_cls_reg acr on air.class_id = acr.id
+                 left join ky_category kc on air.ky_category_id = kc.id
+        Order By air.create_time desc
+    </select>
+
+    <select id="queryInitAiParams" resultType="java.util.Map">
+        select acr.class_name as className,
+               GROUP_CONCAT(kc.code ORDER BY kc.code SEPARATOR ',') as algorithms
+        from algorithm_id_reg air
+                 left join algorithm_cls_reg acr on air.class_id = acr.id
+                 left join ky_category kc on air.ky_category_id = kc.id
+        where air.status = 1
+          and acr.status = 1
+        group by acr.class_name
+    </select>
+
+    <select id="queryMaxId" resultType="java.lang.Integer">
+        select max(kc.code)
+        from algorithm_id_reg air
+                 left join algorithm_cls_reg acr on acr.id = air.class_id
+                 left join ky_category kc on air.ky_category_id = kc.id
+        where air.status = 1
+          and acr.status = 1
+    </select>
+</mapper>

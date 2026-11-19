@@ -1,0 +1,19 @@
+<svg id="editor_btn_paste_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="矩形_6597" data-name="矩形 6597" width="20" height="20" rx="2" fill="none"/>
+  <g id="组_7133" data-name="组 7133" transform="translate(-2 -1.998)">
+    <g id="组_7131" data-name="组 7131">
+      <g id="组_7130" data-name="组 7130">
+        <rect id="矩形_6665" data-name="矩形 6665" width="5.5" height="1.2" rx="0.35" transform="translate(7.25 12.147)" fill="#757fa3"/>
+        <rect id="矩形_6666" data-name="矩形 6666" width="5.5" height="1.2" rx="0.35" transform="translate(7.25 14.647)" fill="#757fa3"/>
+      </g>
+      <path id="路径_3166" data-name="路径 3166" d="M13.8,9H6.2A1.2,1.2,0,0,0,5,10.2v7.6A1.2,1.2,0,0,0,6.2,19h7.6A1.2,1.2,0,0,0,15,17.8V10.2A1.2,1.2,0,0,0,13.8,9Zm0,8.449a.35.35,0,0,1-.35.35H6.55a.35.35,0,0,1-.35-.35v-6.9a.35.35,0,0,1,.35-.35h6.9a.35.35,0,0,1,.35.35Z" fill="#757fa3"/>
+    </g>
+    <rect id="矩形_6667" data-name="矩形 6667" width="1.2" height="2" transform="translate(17.8 8.998)" fill="#757fa3"/>
+    <g id="组_7132" data-name="组 7132">
+      <rect id="矩形_6668" data-name="矩形 6668" width="2" height="1.2" transform="translate(13 4.998)" fill="#757fa3"/>
+      <path id="路径_3167" data-name="路径 3167" d="M11.5,5H10.4A1.4,1.4,0,0,0,9,6.4V7.5h1.2V6.4a.2.2,0,0,1,.2-.2h1.1Z" fill="#757fa3"/>
+      <path id="路径_3168" data-name="路径 3168" d="M17.6,5H16.5V6.2h1.1a.2.2,0,0,1,.2.2V7.5H19V6.4A1.4,1.4,0,0,0,17.6,5Z" fill="#757fa3"/>
+    </g>
+    <path id="路径_3169" data-name="路径 3169" d="M17.8,12.5v1.1a.2.2,0,0,1-.2.2H16.5V15h1.1A1.4,1.4,0,0,0,19,13.6V12.5Z" fill="#757fa3"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+{
+  "max": 42,
+  "data": [
+    {
+      "class": "yolo_39",
+      "algorithms": [10, 11, 12, 13]
+    },
+    {
+      "class": "yolo_40",
+      "algorithms": [40, 41, 42, 43]
+    }
+  ]
+}

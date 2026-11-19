@@ -1,0 +1,5 @@
+<svg id="editor_btn_order_default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <rect id="矩形_5616" data-name="矩形 5616" width="16" height="16" rx="2" fill="none"/>
+  <path id="多边形_20" data-name="多边形 20" d="M3.646.354a.5.5,0,0,1,.707,0L7.146,3.146A.5.5,0,0,1,6.793,4H1.207a.5.5,0,0,1-.354-.854Z" transform="translate(4 2.5)" fill="#d4d9e5"/>
+  <path id="多边形_21" data-name="多边形 21" d="M3.646.354a.5.5,0,0,1,.707,0L7.146,3.146A.5.5,0,0,1,6.793,4H1.207a.5.5,0,0,1-.354-.854Z" transform="translate(12 13.5) rotate(180)" fill="#d4d9e5"/>
+</svg>

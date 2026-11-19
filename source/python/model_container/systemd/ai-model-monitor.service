@@ -1,0 +1,27 @@
+[Unit]
+Description=Monitor RK3588 model container and gate inference services
+Requires=containerd.service
+Wants=ai-model-service.service
+After=containerd.service ai-model-service.service local-fs.target
+Before=ai_server.service ai_engine.service
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=AI_MODEL_MONITOR_CONFIG=/etc/ai-model-monitor.conf
+ExecStart=/usr/local/sbin/ai-model-monitor run
+Restart=always
+RestartSec=5s
+TimeoutStartSec=30s
+TimeoutStopSec=45s
+KillMode=control-group
+RuntimeDirectory=ai-model-monitor
+RuntimeDirectoryMode=0750
+WatchdogSec=30s
+MemoryHigh=48M
+MemoryMax=64M
+TasksMax=32
+UMask=0022
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,69 @@
+{
+  "model_root": "/userdata/sps_test/iva/weights/rknn3",
+  "models": [
+    {
+      "role": "person_helmet", "directory": "person_helmet", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.5, "nms_iou": 0.5, "core_mask": "0x1", "algorithms": [4, 5, 10, 11, 12, 13]
+    },
+    {
+      "role": "smoking_phone", "directory": "smoking_phone", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.3, "nms_iou": 0.5, "core_mask": "0x2", "algorithms": [0, 1]
+    },
+    {
+      "role": "reflective_clothes", "directory": "reflective_clothes", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.5, "nms_iou": 0.5, "core_mask": "0x4", "algorithms": [6, 7]
+    },
+    {
+      "role": "fire_smoke", "directory": "fire_smoke", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.25, "nms_iou": 0.45, "core_mask": "0x10", "algorithms": [2]
+    },
+    {
+      "role": "safety_belt", "directory": "safety_belt", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.25, "nms_iou": 0.45, "core_mask": "0x20", "algorithms": [3, 16]
+    },
+    {
+      "role": "mask", "adapter": "classifier", "directory": "mask", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 224, "height": 224}, "confidence": 0.5, "nms_iou": 0.45, "core_mask": "0x8", "algorithms": [8, 9]
+    },
+    {
+      "role": "vehicle", "directory": "vehicle", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 512, "height": 512}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.25, "nms_iou": 0.45, "core_mask": "0x40", "algorithms": [18]
+    },
+    {
+      "role": "bolt", "directory": "bolt", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 512, "height": 512}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.25, "nms_iou": 0.45, "core_mask": "0x4", "algorithms": [24]
+    },
+    {
+      "role": "oil_leak", "directory": "oil_leak", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.5, "nms_iou": 0.45, "core_mask": "0x80", "algorithms": [29]
+    },
+    {
+      "role": "uniform", "directory": "uniform", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.5, "nms_iou": 0.45, "core_mask": "0x20", "algorithms": [30]
+    },
+    {
+      "role": "pipe_oil_leak", "directory": "pipe_oil_leak", "model": "model.rknn", "weight": "model.weight", "labels": "labels.txt",
+      "input": {"width": 640, "height": 640}, "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]],[[30,61],[62,45],[59,119]],[[116,90],[156,198],[373,326]]],
+      "confidence": 0.5, "nms_iou": 0.45, "core_mask": "0x2", "algorithms": [31]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.cameraGroup.mapper.CameraGroupMapper">
+    <select id="pageList" parameterType="org.jeecg.modules.cameraGroup.entity.CameraGroup" resultType="org.jeecg.modules.cameraGroup.entity.CameraGroup">
+        SELECT group_name as group_name,group_id as id,GROUP_CONCAT(DISTINCT belong_to) as cameraIds,GROUP_CONCAT(DISTINCT model_name) as algorithmIds FROM `algorithm_manager` LEFT JOIN camera_group on algorithm_manager.group_id = camera_group.id
+        <where>
+         and group_id!=""
+        </where>
+        GROUP BY group_id
+    </select>
+
+    <select id="getDeviceIpByGroupId" resultType="String">
+        SELECT device_management.device_ip from (SELECT camera_manager.camera_ownership
+        from camera_manager INNER JOIN
+            camera_group_camera on camera_manager.id = camera_group_camera.camera_id
+        <where>
+            and camera_group_camera.group_id = #{id})
+        </where>
+            as temp INNER JOIN device_management on
+                temp.camera_ownership = device_management.id
+        GROUP BY device_management.device_ip
+    </select>
+</mapper>

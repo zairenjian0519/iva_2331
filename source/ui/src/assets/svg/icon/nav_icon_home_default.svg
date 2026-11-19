@@ -1,0 +1,9 @@
+<svg id="nav_icon_home_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="组_4649" data-name="组 4649" transform="translate(-2 -2)">
+    <g id="Frame">
+      <rect id="矩形_5210" data-name="矩形 5210" width="20" height="20" rx="2" transform="translate(2 2)" fill="none"/>
+    </g>
+    <rect id="矩形_5211" data-name="矩形 5211" width="7" height="1.5" rx="0.25" transform="translate(8.483 14.496)" fill="#e0e4ef"/>
+    <path id="路径_2837" data-name="路径 2837" d="M12,5.459l6.174,5.06H16.75a.25.25,0,0,0-.25.25v7.477a.25.25,0,0,1-.25.25H7.75a.25.25,0,0,1-.25-.25V10.769a.25.25,0,0,0-.25-.25H5.826L12,5.459m0-1.633a1.039,1.039,0,0,0-.662.236L3.326,10.63a.783.783,0,0,0,.5,1.389H6V19a1,1,0,0,0,1,1H17a1,1,0,0,0,1-1V12.019h2.178a.783.783,0,0,0,.5-1.389L12.662,4.062A1.039,1.039,0,0,0,12,3.826Z" fill="#f5f7fa"/>
+  </g>
+</svg>

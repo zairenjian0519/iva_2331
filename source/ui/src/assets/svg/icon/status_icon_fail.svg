@@ -1,0 +1,8 @@
+<svg id="status_icon_fail" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="矩形_6390" data-name="矩形 6390" width="24" height="24" fill="none"/>
+  <path id="成功" d="M93.659,85.333a8.326,8.326,0,1,1-8.326,8.326A8.326,8.326,0,0,1,93.659,85.333Z" transform="translate(-81.333 -81.333)" fill="#c66"/>
+  <g id="组_6472" data-name="组 6472" transform="translate(-48.698 -2291)">
+    <rect id="矩形_6391" data-name="矩形 6391" width="1.5" height="10" rx="0.5" transform="translate(64.029 2299.26) rotate(45)" fill="#fff"/>
+    <rect id="矩形_6392" data-name="矩形 6392" width="1.5" height="10" rx="0.5" transform="translate(65.09 2306.331) rotate(135)" fill="#fff"/>
+  </g>
+</svg>

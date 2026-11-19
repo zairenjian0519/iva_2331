@@ -1,0 +1,18 @@
+<svg id="editor_btn_list_default" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="组_4775" data-name="组 4775">
+    <g id="Frame">
+      <path id="路径_2869" data-name="路径 2869" d="M24,2V23.818A2.1,2.1,0,0,1,22,26H2a2.1,2.1,0,0,1-2-2.182V2" transform="translate(0 -2)" fill="none"/>
+    </g>
+    <g id="组_4776" data-name="组 4776">
+      <g id="Frame-2" data-name="Frame">
+        <rect id="矩形_5436" data-name="矩形 5436" width="24" height="24" rx="2" transform="translate(0)" fill="none"/>
+      </g>
+      <g id="组_4780" data-name="组 4780" transform="translate(0 0.025)">
+        <rect id="矩形_5448" data-name="矩形 5448" width="2.249" height="5.5" rx="0.5" transform="translate(3.998 4.975)" fill="#adb4cc"/>
+        <rect id="矩形_5449" data-name="矩形 5449" width="11.993" height="5.5" rx="0.5" transform="translate(8.005 4.975)" fill="#adb4cc"/>
+        <rect id="矩形_5450" data-name="矩形 5450" width="2.249" height="5.5" rx="0.5" transform="translate(4.002 13.475)" fill="#adb4cc"/>
+        <rect id="矩形_5451" data-name="矩形 5451" width="11.993" height="5.5" rx="0.5" transform="translate(8.009 13.475)" fill="#adb4cc"/>
+      </g>
+    </g>
+  </g>
+</svg>

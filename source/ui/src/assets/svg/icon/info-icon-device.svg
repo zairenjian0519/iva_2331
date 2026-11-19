@@ -1,0 +1,12 @@
+<svg id="info-icon-device" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="info_icon_device">
+    <rect id="矩形_5288" data-name="矩形 5288" width="16" height="16" rx="2" fill="none"/>
+    <g id="组_4701" data-name="组 4701" transform="translate(14 -12)">
+      <rect id="矩形_5293" data-name="矩形 5293" width="16" height="16" rx="2" transform="translate(-14 12)" fill="none"/>
+      <g id="组_5099" data-name="组 5099">
+        <path id="减去_28" data-name="减去 28" d="M1028.5,13934.5h-11a.5.5,0,0,1-.5-.5v-3a1,1,0,0,1,1-1h10a1,1,0,0,1,1,1v3A.5.5,0,0,1,1028.5,13934.5Zm-9-3.021a.5.5,0,0,0-.5.5v.5a.5.5,0,0,0,.5.5h1.5a.5.5,0,0,0,.5-.5v-.5a.5.5,0,0,0-.5-.5Z" transform="translate(-1029 -13915.012)" fill="#dce0ed" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        <path id="减去_27" data-name="减去 27" d="M1028,13934.5h-10a1,1,0,0,1-1-1v-3a.5.5,0,0,1,.5-.5h11a.5.5,0,0,1,.5.5v3A1,1,0,0,1,1028,13934.5Zm-8.5-3.021a.5.5,0,0,0-.5.5v.5a.5.5,0,0,0,.5.5h1.5a.5.5,0,0,0,.5-.5v-.5a.5.5,0,0,0-.5-.5Z" transform="translate(-1029 -13909.512)" fill="#dce0ed" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

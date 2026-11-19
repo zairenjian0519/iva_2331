@@ -1,0 +1,23 @@
+{
+  "schema": "duchen.rk3588.roles.v1",
+  "roles": [
+    {"role":"person_helmet","legacy_path":"weight_512/head_person_helmet_10s_all_512","algorithms":[4,5,10,11,12,13,14,15],"result_map":{"person":{"kind":"person"},"helmet":{"kind":"alarm","algorithm":5},"no_helmet":{"kind":"alarm","algorithm":4}}},
+    {"role":"smoking_phone","legacy_path":"smoke_phone_3s_engine_320","algorithms":[0,1],"result_map":{"smoking":{"kind":"alarm","algorithm":0},"phone":{"kind":"alarm","algorithm":1}}},
+    {"role":"fire_smoke","legacy_path":"fire_smoke_smoking_phone","algorithms":[2],"result_map":{"fire":{"kind":"alarm","algorithm":2},"smoke":{"kind":"alarm","algorithm":2},"smoking":{"kind":"ignore"},"phone":{"kind":"ignore"}}},
+    {"role":"safety_belt","legacy_path":"safety_belt","algorithms":[3,16],"result_map":{"safety":{"kind":"alarm","algorithm":3},"uncertain_safety":{"kind":"ignore"},"no_safety":{"kind":"alarm","algorithm":16}}},
+    {"role":"reflective_clothes","legacy_path":"reflective_5_s_uncertain","algorithms":[6,7],"result_map":{"reflective":{"kind":"alarm","algorithm":7},"refleactive":{"kind":"alarm","algorithm":7},"no_reflective":{"kind":"alarm","algorithm":6},"no_refleactive":{"kind":"alarm","algorithm":6},"uncertain":{"kind":"ignore"}}},
+    {"role":"mask","legacy_path":"mask_classifier","algorithms":[8,9],"result_map":{"mask":{"kind":"alarm","algorithm":8},"nomask":{"kind":"alarm","algorithm":9},"other":{"kind":"ignore"},"masking":{"kind":"alarm","algorithm":8},"no-masking":{"kind":"alarm","algorithm":9}}},
+    {"role":"sleep","legacy_path":"sleep","algorithms":[15],"result_map":{"sleep":{"kind":"alarm","algorithm":15},"normal":{"kind":"ignore"}}},
+    {"role":"shoes_gloves_glasses","legacy_path":"20240922_shoes_glove_glass_512512","algorithms":[19,20,21],"result_map":{"shoes":{"kind":"alarm","algorithm":19},"glove":{"kind":"alarm","algorithm":20},"glass":{"kind":"alarm","algorithm":21}}},
+    {"role":"insulator_board","legacy_path":"20240803_insulator_board_640640","algorithms":[22,23],"result_map":{"missing_insulator":{"kind":"alarm","algorithm":22},"missing_board":{"kind":"alarm","algorithm":23}}},
+    {"role":"vehicle","legacy_path":"car_detect","algorithms":[18],"result_map":{"person":{"kind":"ignore"},"bicycle":{"kind":"alarm","algorithm":18},"e-bicycle":{"kind":"alarm","algorithm":18},"car":{"kind":"alarm","algorithm":18},"motorcycle":{"kind":"alarm","algorithm":18},"bus":{"kind":"alarm","algorithm":18},"truck":{"kind":"alarm","algorithm":18},"fire-truck":{"kind":"alarm","algorithm":18},"oil-truck":{"kind":"alarm","algorithm":18},"muck-truck":{"kind":"alarm","algorithm":18},"boom-truck":{"kind":"alarm","algorithm":18},"mixer-truck":{"kind":"alarm","algorithm":18}}},
+    {"role":"bolt","legacy_path":"bolt_512","algorithms":[24],"result_map":{"screw":{"kind":"ignore"},"loose":{"kind":"alarm","algorithm":24}}},
+    {"role":"bolt_line","legacy_path":"bolt_line_engine_320","algorithms":[24],"result_map":{"loose":{"kind":"alarm","algorithm":24}}},
+    {"role":"blade","legacy_path":"dirt_yolox_s_640640","algorithms":[25],"result_map":{"damage":{"kind":"alarm","algorithm":25},"dirt":{"kind":"alarm","algorithm":25}}},
+    {"role":"clearance","legacy_path":"jk_yolox_s_640640","algorithms":[26],"result_map":{"clearance":{"kind":"alarm","algorithm":26},"mark":{"kind":"alarm","algorithm":26},"pillar":{"kind":"alarm","algorithm":26}}},
+    {"role":"blue_uniform","legacy_path":"20241015_fgy2nofgy_224","algorithms":[27,28],"result_map":{"blue_uniform":{"kind":"alarm","algorithm":27},"no_blue_uniform":{"kind":"alarm","algorithm":28}}},
+    {"role":"oil_leak","legacy_path":"pump_has_oil","algorithms":[29],"result_map":{"has_oil":{"kind":"alarm","algorithm":29},"oil":{"kind":"alarm","algorithm":29},"class_0":{"kind":"alarm","algorithm":29}}},
+    {"role":"uniform","legacy_path":"workwear","algorithms":[30],"result_map":{"person":{"kind":"candidate"},"workwear":{"kind":"suppressor"}}},
+    {"role":"pipe_oil_leak","legacy_path":"pipeline_has_oil","algorithms":[31],"result_map":{"has_oil":{"kind":"alarm","algorithm":31},"oil":{"kind":"alarm","algorithm":31},"class_0":{"kind":"alarm","algorithm":31}}}
+  ]
+}

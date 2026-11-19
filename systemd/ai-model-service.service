@@ -1,0 +1,15 @@
+[Unit]
+Description=Start the RK3588 model containerd task at boot
+Requires=containerd.service
+After=containerd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/ai-model-container start
+ExecStop=/usr/local/sbin/ai-model-container stop
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

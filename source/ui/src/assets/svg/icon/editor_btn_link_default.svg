@@ -1,0 +1,14 @@
+<svg id="editor_btn_link_default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <path id="路径_3131" data-name="路径 3131" d="M0,0H16V16H0Z" fill="none"/>
+  <g id="组_7149" data-name="组 7149" transform="translate(-3.5 -4.5)">
+    <g id="组_7147" data-name="组 7147" transform="translate(-1 1)">
+      <path id="矩形_6686" data-name="矩形 6686" d="M0,0H6.5a.266.266,0,0,1,.266.266V.934A.266.266,0,0,1,6.5,1.2H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(17.697 7.152) rotate(135)" fill="#adb4cc"/>
+      <path id="路径_3175" data-name="路径 3175" d="M18.5,5.761v2.8a.26.26,0,0,1-.445.184l-2.8-2.8a.261.261,0,0,1,0-.369A.264.264,0,0,1,15.44,5.5h2.8a.259.259,0,0,1,.26.259Z" fill="#adb4cc"/>
+    </g>
+    <g id="组_7148" data-name="组 7148">
+      <path id="路径_3175-2" data-name="路径 3175" d="M15.3,14.5v2.8H6.7V8.7H9.5V7.5h-3a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1h9a1,1,0,0,0,1-1v-3Z" fill="#adb4cc"/>
+      <path id="矩形_6687" data-name="矩形 6687" d="M0,0H.75A.25.25,0,0,1,1,.25v.7a.25.25,0,0,1-.25.25H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(9.5 7.5)" fill="#adb4cc"/>
+      <path id="矩形_6688" data-name="矩形 6688" d="M0,0H.75A.25.25,0,0,1,1,.25v.7a.25.25,0,0,1-.25.25H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(15.3 14.5) rotate(-90)" fill="#adb4cc"/>
+    </g>
+  </g>
+</svg>

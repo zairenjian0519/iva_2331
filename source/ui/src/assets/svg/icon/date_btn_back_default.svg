@@ -1,0 +1,10 @@
+<svg id="date_btn_back_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Layer_97" data-name="Layer 97" transform="translate(-2 -2)">
+    <g id="组_4796" data-name="组 4796">
+      <path id="路径_2873" data-name="路径 2873" d="M10.763,12l4.242-4.243a.5.5,0,0,0,0-.707L14.652,6.7a.5.5,0,0,0-.707,0l-4.6,4.6-.353.354a.5.5,0,0,0,0,.707l.353.353,4.6,4.6a.5.5,0,0,0,.707,0l.353-.353a.5.5,0,0,0,0-.707Z" fill="#d3d8e6"/>
+    </g>
+  </g>
+  <g id="Frame" transform="translate(-2 -2)">
+    <rect id="矩形_5477" data-name="矩形 5477" width="20" height="20" rx="1.667" transform="translate(2 2)" fill="none"/>
+  </g>
+</svg>

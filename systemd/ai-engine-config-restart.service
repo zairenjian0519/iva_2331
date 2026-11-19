@@ -1,0 +1,7 @@
+[Unit]
+Description=Apply latest AI engine configuration
+After=redis-server.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart ai_engine.service

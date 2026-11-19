@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.deviceManagement.mapper.DeviceManagementMapper">
+    <delete id="removeAuditByDeviceId">
+        delete from alarm_audit
+        <where>
+            <if test='devId!=null and devId!=""'>
+                and alarm_id in (select id from alarm_detail where camera_id in (select id from camera_manager WHERE camera_ownership= #{devId}))
+            </if>
+        </where>
+    </delete>
+    <delete id="removeAlarmByDeviceId">
+        delete from alarm_detail
+        <where>
+            <if test='devId!=null and devId!=""'>
+                and camera_id in (select id from camera_manager WHERE camera_ownership= #{devId})
+            </if>
+        </where>
+    </delete>
+
+    <select id="getUsedAlgNum" resultType="java.lang.Integer">
+        select count(*) from algorithm_manager
+        <where>
+            <if test='id!=null and id!=""'>
+                and belong_to in (select id from camera_manager WHERE camera_ownership= #{id})
+            </if>
+        </where>
+    </select>
+    <select id="getUsedCameraNum" resultType="java.lang.Integer">
+        select count(*) from camera_manager
+        <where>
+            <if test='id!=null and id!=""'>
+                and camera_ownership = #{id}
+            </if>
+        </where>
+    </select>
+    <select id="getByCameraId" resultType="org.jeecg.modules.deviceManagement.entity.DeviceManagement">
+        select * from device_management
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+                and id = (select camera_ownership from camera_manager where id=#{cameraId})
+            </if>
+        </where>
+    </select>
+    <select id="getDeviceIp" resultType="org.jeecg.modules.deviceManagement.entity.DeviceManagement">
+        SELECT * FROM
+        (device_management inner join camera_manager on camera_ownership = device_management.id)
+        inner join algorithm_manager on algorithm_manager.belong_to = camera_manager.id
+        where algorithm_manager.id = #{id}
+    </select>
+    <update id="updateIdByIp">
+        update device_management set id = #{id} where device_ip=#{ip}
+    </update>
+
+    <update id="updateIpById">
+        update device_management set device_ip = #{ip} where id=#{id}
+    </update>
+</mapper>

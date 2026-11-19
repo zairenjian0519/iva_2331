@@ -1,0 +1,9 @@
+<svg id="statistics_icon_line" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="line_24px" data-name="line/24px" transform="translate(-2 -2)">
+    <rect id="矩形_4849" data-name="矩形 4849" width="16" height="16" rx="2" transform="translate(2 2)" fill="none"/>
+  </g>
+  <g id="Line" transform="translate(-1.981 -2.368)">
+    <rect id="矩形_4850" data-name="矩形 4850" width="13.962" height="1.551" rx="0.5" transform="translate(3 14.284)" fill="#d3d9e8"/>
+    <path id="路径_2770" data-name="路径 2770" d="M4.55,12.822,4,12.273a.388.388,0,0,1,0-.548L8.047,7.679a.582.582,0,0,1,.823,0l1.7,1.7a.194.194,0,0,0,.275,0l4.368-4.368a.389.389,0,0,1,.549,0l.548.548a.387.387,0,0,1,0,.548L11.12,11.3a.581.581,0,0,1-.822,0L8.6,9.6a.193.193,0,0,0-.274,0L5.1,12.822A.388.388,0,0,1,4.55,12.822Z" transform="translate(-0.199)" fill="#d3d9e8"/>
+  </g>
+</svg>

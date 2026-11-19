@@ -1,0 +1,8 @@
+<svg id="editor_btn_more_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <path id="路径_3125" data-name="路径 3125" d="M2,0H18a2,2,0,0,1,2,2V18a2,2,0,0,1-2,2H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0Z" fill="#e0e4ef"/>
+  <g id="组_6482" data-name="组 6482" transform="translate(27 -227) rotate(90)">
+    <circle id="椭圆_210" data-name="椭圆 210" cx="1" cy="1" r="1" transform="translate(236 11.5)" fill="#757fa3"/>
+    <circle id="椭圆_211" data-name="椭圆 211" cx="1" cy="1" r="1" transform="translate(236 16)" fill="#757fa3"/>
+    <circle id="椭圆_212" data-name="椭圆 212" cx="1" cy="1" r="1" transform="translate(236 20.5)" fill="#757fa3"/>
+  </g>
+</svg>

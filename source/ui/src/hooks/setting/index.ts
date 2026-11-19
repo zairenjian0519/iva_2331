@@ -1,0 +1,43 @@
+import type { GlobConfig } from '/#/config';
+
+import { getAppEnvConfig } from '/@/utils/env';
+
+export const useGlobSetting = (): Readonly<GlobConfig> => {
+  const {
+    VITE_GLOB_APP_TITLE,
+    VITE_GLOB_API_URL,
+    VITE_GLOB_APP_SHORT_NAME,
+    VITE_GLOB_API_URL_PREFIX,
+    VITE_GLOB_APP_CAS_BASE_URL,
+    VITE_GLOB_APP_OPEN_SSO,
+    VITE_GLOB_APP_OPEN_QIANKUN,
+    VITE_GLOB_DOMAIN_URL,
+    VITE_GLOB_ONLINE_VIEW_URL,
+  } = getAppEnvConfig();
+
+  if (!/[a-zA-Z\_]*/.test(VITE_GLOB_APP_SHORT_NAME)) {
+    // warn(
+    //   `VITE_GLOB_APP_SHORT_NAME Variables can only be characters/underscores, please modify in the environment variables and re-running.`
+    // );
+  }
+
+  const browserDomainUrl = import.meta.env.PROD
+    ? `http://${window.location.hostname}:8088/kyscene`
+    : VITE_GLOB_DOMAIN_URL;
+
+  // Take global configuration
+  const glob: Readonly<GlobConfig> = {
+    title: VITE_GLOB_APP_TITLE,
+    domainUrl: browserDomainUrl,
+    apiUrl: VITE_GLOB_API_URL,
+    shortName: VITE_GLOB_APP_SHORT_NAME,
+    openSso: VITE_GLOB_APP_OPEN_SSO,
+    openQianKun: VITE_GLOB_APP_OPEN_QIANKUN,
+    casBaseUrl: VITE_GLOB_APP_CAS_BASE_URL,
+    urlPrefix: VITE_GLOB_API_URL_PREFIX,
+    uploadUrl: browserDomainUrl,
+    viewUrl: VITE_GLOB_ONLINE_VIEW_URL,
+  };
+  window._CONFIG['domianURL'] = browserDomainUrl;
+  return glob as Readonly<GlobConfig>;
+};

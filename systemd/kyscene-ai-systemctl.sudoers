@@ -1,0 +1,2 @@
+Cmnd_Alias KYSCENE_SERVICE_CONTROL = /usr/bin/systemctl restart ai_server.service, /usr/bin/systemctl restart ai_engine.service, /usr/bin/systemctl restart ai-engine-config-restart.timer, /usr/bin/systemctl restart kyscene.service
+forlinx ALL=(root) NOPASSWD: KYSCENE_SERVICE_CONTROL

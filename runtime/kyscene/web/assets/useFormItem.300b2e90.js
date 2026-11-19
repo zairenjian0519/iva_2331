@@ -1,0 +1,1 @@
+import{ak as v,P as f,Q as i,an as d,h as m,bB as g,$ as h,t as S,u as b}from"./vendor.52b903d0.js";function E(n,u="value",o="change",c){const a=v(),s=a==null?void 0:a.emit,t=f({value:n[u]}),r=i(t),l=e=>{t.value=e};return d(()=>{t.value=n[u]}),[m({get(){return t.value===""?[]:t.value},set(e){g(e,r.value)||(t.value=e,h(()=>{s==null||s(o,e,...S(b(c))||[])}))}}),l,r]}export{E as u};

@@ -1,0 +1,143 @@
+{
+  "model_root": "/userdata/sps_test/iva/weights/rknn",
+  "models": [
+    {
+      "role": "person_helmet",
+      "core_mask": "0x1",
+      "directory": "weight_512/head_person_helmet_10s_all_512",
+      "model": "yolov5s_relu.rknn",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.5,
+      "nms_iou": 0.5,
+      "algorithms": [4,5,10,11,12,13,14,15]
+    },
+    {
+      "role": "smoking_phone",
+      "core_mask": "0x4",
+      "directory": "smoke_phone_3s_engine_320",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.3,
+      "nms_iou": 0.5,
+      "algorithms": [0,1]
+    },
+    {
+      "role": "reflective_clothes",
+      "core_mask": "0x4",
+      "directory": "reflective_5_s_uncertain",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.5,
+      "nms_iou": 0.5,
+      "algorithms": [6,7]
+    },
+    {
+      "role": "fire_smoke",
+      "core_mask": "0x4",
+      "directory": "fire_smoke_smoking_phone",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.25,
+      "nms_iou": 0.45,
+      "algorithms": [2]
+    },
+    {
+      "role": "safety_belt",
+      "core_mask": "0x2",
+      "directory": "safety_belt",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.25,
+      "nms_iou": 0.45,
+      "algorithms": [3,16]
+    },
+    {
+      "role": "mask",
+      "core_mask": "0x2",
+      "adapter": "classifier",
+      "directory": "mask_classifier",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 224, "height": 224},
+      "confidence": 0.5,
+      "algorithms": [8,9]
+    },
+    {
+      "role": "vehicle",
+      "core_mask": "0x4",
+      "directory": "car_detect",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 512, "height": 512},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.25,
+      "nms_iou": 0.45,
+      "algorithms": [18]
+    },
+    {
+      "role": "bolt",
+      "core_mask": "0x2",
+      "directory": "bolt_512",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 512, "height": 512},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.25,
+      "nms_iou": 0.45,
+      "algorithms": [24]
+    },
+    {
+      "role": "oil_leak",
+      "core_mask": "0x2",
+      "directory": "pump_has_oil",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.5,
+      "nms_iou": 0.45,
+      "algorithms": [29]
+    },
+    {
+      "role": "uniform",
+      "core_mask": "0x2",
+      "directory": "workwear",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.5,
+      "nms_iou": 0.45,
+      "algorithms": [30]
+    },
+    {
+      "role": "pipe_oil_leak",
+      "core_mask": "0x4",
+      "directory": "pipeline_has_oil",
+      "model": "model_fp.rknn",
+      "labels": "labels.txt",
+      "input": {"width": 640, "height": 640},
+      "strides": [8, 16, 32],
+      "anchors": [[[10,13],[16,30],[33,23]], [[30,61],[62,45],[59,119]], [[116,90],[156,198],[373,326]]],
+      "confidence": 0.5,
+      "nms_iou": 0.45,
+      "algorithms": [31]
+    }
+  ]
+}

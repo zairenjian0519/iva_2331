@@ -1,0 +1,13 @@
+<svg id="statistics_icon_bar" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="line_24px" data-name="line/24px">
+    <rect id="矩形_4851" data-name="矩形 4851" width="16" height="16" rx="2" fill="#fff"/>
+  </g>
+  <g id="Bar" transform="translate(1.991 3.46)">
+    <g id="组_4252" data-name="组 4252" transform="translate(0.668)">
+      <rect id="矩形_4852" data-name="矩形 4852" width="2.671" height="3.839" rx="0.5" transform="translate(0 2.838)" fill="#d3d9e8"/>
+      <rect id="矩形_4853" data-name="矩形 4853" width="2.671" height="6.677" rx="0.5" transform="translate(4.006)" fill="#d3d9e8"/>
+      <rect id="矩形_4854" data-name="矩形 4854" width="2.671" height="5.007" rx="0.5" transform="translate(8.012 1.669)" fill="#d3d9e8"/>
+    </g>
+    <rect id="矩形_4855" data-name="矩形 4855" width="12.018" height="1.335" rx="0.5" transform="translate(0 7.745)" fill="#d3d9e8"/>
+  </g>
+</svg>

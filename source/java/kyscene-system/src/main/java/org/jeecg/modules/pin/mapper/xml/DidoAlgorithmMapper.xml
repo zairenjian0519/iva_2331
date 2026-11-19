@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.pin.mapper.DidoAlgorithmMapper">
+
+	<select id="queryDataToCache"  resultType="java.util.Map">
+		select spa.algorithm_code as algorithmCode,
+			   sp.pin_number as pinNumber,
+			   sp.pin_val as pinValue
+		from serial_pin_algorithm spa
+				 left join serial_pin sp on sp.id = spa.serial_pin_id
+		where spa.status = 1 and sp.status = 1
+
+	</select>
+
+</mapper>

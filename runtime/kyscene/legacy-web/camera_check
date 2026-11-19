@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+"""Check an RTSP stream using the target board's FFmpeg tools."""
+
+import json
+import os
+import re
+import subprocess
+import sys
+from urllib.parse import urlparse
+
+
+FFPROBE = "/usr/bin/ffprobe"
+FFMPEG = "/usr/bin/ffmpeg"
+SNAPSHOT_DIR = "/userdata/sps_test/iva-kyscene/data/alarm_picture/download/show_image"
+DEFAULT_TIMEOUT = 15
+
+
+def emit(camera_id, success, error=None, stream_info=None, snapshot=None):
+    result = {"camera_id": camera_id, "success": success}
+    if success:
+        result["stream_info"] = stream_info or {}
+        if snapshot:
+            result["snapshot"] = snapshot
+    else:
+        result["error"] = error or "unknown camera check error"
+    print(json.dumps(result, ensure_ascii=False, separators=(",", ":")), flush=True)
+
+
+def safe_camera_id(camera_id):
+    value = re.sub(r"[^A-Za-z0-9_.-]", "_", camera_id or "unknown")
+    return value or "unknown"
+
+
+def transport_args(url):
+    scheme = urlparse(url).scheme.lower()
+    if scheme in ("rtsp", "rtsps"):
+        return ["-rtsp_transport", "tcp"]
+    return []
+
+
+def run_probe(url, timeout):
+    command = [
+        FFPROBE,
+        "-hide_banner",
+        "-v",
+        "error",
+        *transport_args(url),
+        "-rw_timeout",
+        str(timeout * 1_000_000),
+        "-analyzeduration",
+        "5M",
+        "-probesize",
+        "5M",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=codec_name,codec_tag_string,width,height",
+        "-of",
+        "json",
+        url,
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return None, "连接视频流超时"
+    except OSError as exc:
+        return None, "无法执行 ffprobe: %s" % exc
+
+    if completed.returncode != 0:
+        message = completed.stderr.strip().splitlines()
+        return None, message[-1] if message else "无法打开视频流"
+
+    try:
+        streams = json.loads(completed.stdout).get("streams", [])
+    except (TypeError, ValueError):
+        return None, "ffprobe 返回结果无法解析"
+    if not streams:
+        return None, "未找到视频流"
+
+    stream = streams[0]
+    codec_name = stream.get("codec_name") or "unknown"
+    width = int(stream.get("width") or 0)
+    height = int(stream.get("height") or 0)
+    codec_id = stream.get("codec_tag_string") or codec_name.upper()
+    return {
+        "codec_name": codec_name,
+        "codec_id": codec_id,
+        "width": width,
+        "height": height,
+    }, None
+
+
+def capture_snapshot(url, output_path, timeout):
+    command = [
+        FFMPEG,
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        *transport_args(url),
+        "-rw_timeout",
+        str(timeout * 1_000_000),
+        "-i",
+        url,
+        "-map",
+        "0:v:0",
+        "-frames:v",
+        "1",
+        "-y",
+        output_path,
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    return completed.returncode == 0 and os.path.isfile(output_path) and os.path.getsize(output_path) > 0
+
+
+def main():
+    if len(sys.argv) != 2:
+        emit("", False, "用法: camera_check '<json>'")
+        return 0
+
+    try:
+        request = json.loads(sys.argv[1])
+    except (TypeError, ValueError):
+        emit("", False, "输入 JSON 格式错误")
+        return 0
+
+    camera_id = str(request.get("camera_id") or "")
+    url = str(request.get("rtsp_url") or "")
+    if not url:
+        emit(camera_id, False, "缺少 rtsp_url")
+        return 0
+
+    try:
+        timeout = int(os.environ.get("CAMERA_CHECK_TIMEOUT_SECONDS", DEFAULT_TIMEOUT))
+    except ValueError:
+        timeout = DEFAULT_TIMEOUT
+    timeout = max(5, min(timeout, 60))
+
+    stream_info, error = run_probe(url, timeout)
+    if stream_info is None:
+        emit(camera_id, False, error)
+        return 0
+
+    snapshot = None
+    try:
+        os.makedirs(SNAPSHOT_DIR, mode=0o750, exist_ok=True)
+        snapshot = os.path.join(SNAPSHOT_DIR, safe_camera_id(camera_id) + ".jpg")
+        if not capture_snapshot(url, snapshot, timeout):
+            snapshot = None
+    except OSError:
+        snapshot = None
+
+    emit(camera_id, True, stream_info=stream_info, snapshot=snapshot)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

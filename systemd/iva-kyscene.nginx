@@ -1,0 +1,80 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+
+    root /userdata/sps_test/iva-kyscene/web;
+    index index.html;
+    client_max_body_size 400m;
+
+    location = /healthz {
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    location ~ ^/kyscene/sys/dict/getDictItems/ { proxy_pass http://127.0.0.1:8088$request_uri; proxy_set_header Host $host; }
+    location ^~ /kyscene/cameraImg/ {
+        alias /userdata/sps_test/iva-kyscene/data/alarm_picture/download/show_image/;
+        autoindex off;
+        add_header Cache-Control "no-store";
+    }
+
+    location /kyscene/ {
+        proxy_pass http://127.0.0.1:8088/kyscene/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+        proxy_buffering off;
+    }
+
+    location /sourceImage/ {
+        alias /userdata/sps_test/iva-kyscene/data/templates/;
+        autoindex off;
+    }
+
+    location ^~ /cameraImg/ {
+        alias /userdata/sps_test/iva-kyscene/data/alarm_picture/download/show_image/;
+        autoindex off;
+        add_header Cache-Control "no-store";
+    }
+
+    # Compatibility for records produced before the Python URL contract fix.
+    location ^~ /alarmImg/alarm_picture/ {
+        alias /userdata/sps_test/iva-kyscene/data/alarm_picture/download/;
+        autoindex off;
+        add_header Cache-Control "no-store";
+    }
+
+    location ^~ /alarmImg/ {
+        alias /userdata/sps_test/iva-kyscene/data/alarm_picture/download/;
+        autoindex off;
+        add_header Cache-Control "no-store";
+    }
+
+    location /face/ {
+        alias /userdata/sps_test/iva-kyscene/data/face/;
+        autoindex off;
+    }
+
+    location /download/ {
+        alias /userdata/sps_test/iva-kyscene/data/;
+        autoindex off;
+        add_header Content-Disposition "attachment";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf)$ {
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate";
+        try_files $uri =404;
+    }
+}

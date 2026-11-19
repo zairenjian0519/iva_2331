@@ -1,0 +1,7 @@
+exif==1.6.1
+python-box==7.4.1
+multiping==1.1.2
+interval==1.0.0
+PyTurboJPEG==1.8.3
+pony==0.7.20
+plum-py==0.8.7

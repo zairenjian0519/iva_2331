@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.alarmFace.mapper.AlarmFaceMapper">
+
+    <select id="selectPageData" resultType="org.jeecg.modules.alarmFace.AlarmFaceDo">
+        SELECT alarm_face.* , ky_category.id as categoryId FROM alarm_face INNER JOIN ky_category ON ky_category.code = alarm_face.alarm_type
+        <where>
+            <if test="alarmFaceParams.cameraNames!=null and alarmFaceParams.cameraNames.size()!=0">
+                and alarm_face.camera_id in
+                <foreach collection="alarmFaceParams.cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            
+            <if test="alarmFaceParams.startTime!=null and alarmFaceParams.startTime!='' and alarmFaceParams.endTime!=null and alarmFaceParams.endTime!=''">
+                and alarm_face.alarm_time between #{alarmFaceParams.startTime} and #{alarmFaceParams.endTime}
+            </if>
+
+            <if test="alarmFaceParams.isRotate!=null">
+                and alarm_face.is_rotate = #{alarmFaceParams.isRotate}
+            </if>
+
+        </where>
+        <if test='alarmFaceParams.field=="" and alarmFaceParams.order==""'>
+            ORDER BY alarm_face.alarm_time DESC
+        </if>
+
+        <if test='alarmFaceParams.field=="alarmTime" and alarmFaceParams.order=="ascend"'>
+            ORDER BY alarm_face.alarm_time ASC
+        </if>
+        
+        <if test='alarmFaceParams.field=="alarmTime" and alarmFaceParams.order=="descend"'>
+            ORDER BY alarm_face.alarm_time DESC
+        </if>
+      
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+[Unit]
+Description=Duchen RK182X Python RKNN3 raw-head engine
+Wants=network-online.target redis-server.service mosquitto.service kyscene.service ai_server.service
+After=network-online.target redis-server.service mosquitto.service kyscene.service ai_server.service ai_engine.service
+PartOf=ai_engine.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/duchun-rk182x-python.env
+WorkingDirectory=/userdata/sps_test/iva_python/duchun_rk182x_python
+Environment=PYTHONPATH=/userdata/sps_test/iva_python:/userdata/sps_test/iva_python/duchun_rk182x_python:/userdata/sps_test/iva_python/duchun_rk182x_python/python
+Environment=DUCHUN_CAMERA_DEPLOYMENT_CONFIG=/userdata/sps_test/iva/config/camera_deployment.json
+Environment=PATH=/userdata/sps_test/iva/rk182x-runtime/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+Environment=LD_LIBRARY_PATH=/userdata/sps_test/iva/rk182x-runtime/lib:/userdata/sps_test/iva/lib:/userdata/sps_test/iva/lib/gstreamer-1.0
+Environment=GST_PLUGIN_PATH=/userdata/sps_test/iva/lib/gstreamer-1.0
+ExecStart=/userdata/sps_test/iva_python/rknn3_env/bin/python -m app.active_engine --model-manifest=models/initial_models.rk182x.json --role-manifest=models/roles.json
+Restart=on-failure
+RestartPreventExitStatus=78
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

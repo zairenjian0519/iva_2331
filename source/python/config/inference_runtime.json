@@ -1,0 +1,5 @@
+{
+  "metrics_interval_seconds": 10,
+  "default_max_inference_fps": 2,
+  "camera_max_inference_fps": {}
+}

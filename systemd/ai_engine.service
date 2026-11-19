@@ -1,0 +1,24 @@
+[Unit]
+Description=Duchen RK3588 Python MPP/RGA/RKNNLite engine
+Wants=network-online.target redis-server.service mosquitto.service kyscene.service ai_server.service ai_engine_rk182x_python.service
+After=network-online.target redis-server.service mosquitto.service kyscene.service ai_server.service
+
+[Service]
+Type=simple
+Environment=DUCHEN_INFERENCE_BACKEND=rk3588
+EnvironmentFile=-/userdata/sps_test/iva/config/rk3588/runtime.env
+EnvironmentFile=/etc/duchun-rk3588-python.env
+WorkingDirectory=/userdata/sps_test/iva_python/duchun_rk3588_python
+Environment=GST_PLUGIN_PATH=/userdata/sps_test/iva/lib/gstreamer-1.0
+Environment=LD_LIBRARY_PATH=/userdata/sps_test/iva/lib:/userdata/sps_test/iva/lib/gstreamer-1.0
+Environment=RK3588_ENGINE_RUN=1
+Environment=RK3588_ENGINE_DEBUG=1
+Environment=PYTHONPATH=/userdata/sps_test/iva_python:/userdata/sps_test/iva_python/duchun_rk3588_python:/userdata/sps_test/iva_python/duchun_rk3588_python/python
+Environment=DUCHUN_CAMERA_DEPLOYMENT_CONFIG=/userdata/sps_test/iva/config/camera_deployment.json
+ExecStart=/userdata/sps_test/iva_python/python_mpp/.venv/bin/python -m app.active_engine
+ExecStopPost=/usr/local/sbin/ai-engine-rk182x-on-failure ai_engine_rk182x_python.service
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.cameraGroupAlgorithm.mapper.CameraGroupAlgorithmMapper">
+    <select id="getAlgorithmByGroupId" resultType="org.jeecg.modules.cameraGroupAlgorithm.entity.CameraGroupAlgorithm">
+        select * from camera_group_algorithm
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+                and group_id = #{groupId}
+            </if>
+        </where>
+    </select>
+    <delete id="removeByGroupId">
+        delete from camera_group_algorithm where group_id = #{id}
+    </delete>
+    <select id="getAlgByGroupIdAndAlgId" resultType="org.jeecg.modules.cameraGroupAlgorithm.entity.CameraGroupAlgorithm">
+        select * from camera_group_algorithm
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+                and group_id = #{groupId}
+            </if>
+            <if test='algorithmId!=null and algorithmId!=""'>
+                and algorithm_id = #{algorithmId}
+            </if>
+        </where>
+    </select>
+    <select id="getAlarmTypeInfo" resultType="org.jeecg.modules.cameraGroupAlgorithm.entity.CameraGroupAlgorithm">
+        SELECT camera_group_algorithm.*,ky_category.name as name FROM `camera_group_algorithm` left join `ky_category` on camera_group_algorithm.model_name = ky_category.id
+    </select>
+</mapper>

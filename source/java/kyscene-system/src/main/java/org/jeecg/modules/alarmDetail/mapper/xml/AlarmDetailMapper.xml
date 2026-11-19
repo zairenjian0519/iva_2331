@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.alarmDetail.mapper.AlarmDetailMapper">
+<!--    查询的所有数据都要确定显示的是否为未审核-->
+    <select id="getAlarmCount" resultType="Integer">
+        select count(*) from alarm_detail
+    </select>
+
+    <!--    目前不需要列表 只需要统计数量-->
+    <select id="todayList" resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail">
+        SELECT * FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.id = alarm_audit.alarm_id
+        and alarm_audit.audit_status = '0'
+        and alarm_time >= (NOW()-INTERVAL 24 HOUR) ORDER BY alarm_time desc limit 100
+    </select>
+    <select id="todayCount" resultType="Integer">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.id = alarm_audit.alarm_id
+        and alarm_audit.audit_status = '0'
+        and alarm_time >= (NOW()-INTERVAL 24 HOUR)
+    </select>
+
+    <select id="seriousList" resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail">
+        SELECT * FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.alarm_level = '4'
+          and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+    <select id="detailByCamera" resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail">
+        SELECT * FROM `alarm_detail` INNER JOIN `alarm_audit`
+        <where>
+            alarm_detail.id = alarm_audit.alarm_id
+            <if test="cameraId!=null">
+                and alarm_detail.camera_id = #{cameraId}
+            </if>
+            and alarm_audit.audit_status = '0'
+            ORDER BY alarm_time desc
+        </where>
+
+    </select>
+
+
+    <select id="allList" resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail">
+        SELECT * FROM `alarm_detail` INNER JOIN `alarm_audit`
+          and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+
+    <select id="seriousListByName" resultType="Integer">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.alarm_level = '4'
+          and alarm_detail.camera_id = #{cameraName}
+          and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+
+    <select id="allListByName" resultType="Integer">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.camera_id = #{cameraName}
+            and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+
+    <select id="alarmAreaList" resultType="Integer">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit`
+        where alarm_detail.alarm_area = #{alarmArea}
+          and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+
+    <select id="alarmDeviceList" resultType="Integer">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `camera_manager`
+        where camera_manager.camera_ownership = #{alarmDevice}
+          and camera_manager.id = alarm_detail.camera_id
+          and alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0';
+    </select>
+
+    <select id="queryDetailList"
+            resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail">
+        SELECT
+        alarm_detail.*,
+        ky_category.id AS categoryId,
+        alarm_audit.id AS auditId,
+        alarm_audit.audit_people,
+        alarm_audit.audit_reason,
+        alarm_audit.audit_status,
+        alarm_audit.audit_result,
+        alarm_audit.audit_time
+        FROM alarm_detail
+
+        LEFT JOIN alarm_audit ON alarm_audit.alarm_id = alarm_detail.id
+        LEFT JOIN ky_category ON ky_category.code = alarm_detail.alarm_type
+
+        <where>
+            <!-- 优先做主表过滤 -->
+            <if test="alarmSearchVo.alarmType != null and alarmSearchVo.alarmType != ''">
+                alarm_detail.alarm_type != #{alarmSearchVo.alarmType}
+            </if>
+
+            <if test="alarmSearchVo.cameraNames != null and alarmSearchVo.cameraNames.size() > 0">
+                AND alarm_detail.camera_id IN
+                <foreach collection="alarmSearchVo.cameraNames" item="cameraName" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+
+            <if test="alarmSearchVo.categorys != null and alarmSearchVo.categorys.size() > 0">
+                AND ky_category.id IN
+                <foreach collection="alarmSearchVo.categorys" item="category" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+
+            <if test="alarmSearchVo.startTime != null and alarmSearchVo.endTime != null
+                  and alarmSearchVo.startTime != '' and alarmSearchVo.endTime != ''">
+                AND alarm_detail.alarm_time BETWEEN #{alarmSearchVo.startTime} AND #{alarmSearchVo.endTime}
+            </if>
+
+            <if test="alarmSearchVo.alarmLevel != null and alarmSearchVo.alarmLevel != ''">
+                AND alarm_detail.alarm_level = #{alarmSearchVo.alarmLevel}
+            </if>
+
+            <if test="alarmSearchVo.auditStatus != null and alarmSearchVo.auditStatus != ''">
+                AND alarm_audit.audit_status = #{alarmSearchVo.auditStatus}
+            </if>
+
+            <if test="alarmSearchVo.auditResult != null and alarmSearchVo.auditResult != ''">
+                AND alarm_audit.audit_result = #{alarmSearchVo.auditResult}
+            </if>
+
+            <if test="alarmSearchVo.isRotate != null">
+                AND alarm_detail.is_rotate = #{alarmSearchVo.isRotate}
+            </if>
+        </where>
+
+        <!-- 排序逻辑优化 -->
+        <choose>
+            <when test='alarmSearchVo.field == "alarmLevel" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_detail.alarm_level ASC
+            </when>
+            <when test='alarmSearchVo.field == "alarmLevel" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_detail.alarm_level DESC
+            </when>
+            <when test='alarmSearchVo.field == "alarmTime" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_detail.alarm_time ASC
+            </when>
+            <when test='alarmSearchVo.field == "alarmTime" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_detail.alarm_time DESC
+            </when>
+            <when test='alarmSearchVo.field == "auditTime" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_audit.audit_time ASC
+            </when>
+            <when test='alarmSearchVo.field == "auditTime" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_audit.audit_time DESC
+            </when>
+            <otherwise>
+                ORDER BY alarm_detail.alarm_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectDetailList"
+            resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetail"
+            parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT
+        alarm_detail.*,
+        ky_category.id AS categoryId,
+        alarm_audit.id AS auditId,
+        alarm_audit.audit_people,
+        alarm_audit.audit_reason,
+        alarm_audit.audit_status,
+        alarm_audit.audit_result,
+        alarm_audit.audit_time
+        FROM alarm_detail
+
+        <!-- 显式 JOIN 写法，更符合 SQL 最佳实践 -->
+        LEFT JOIN alarm_audit ON alarm_audit.alarm_id = alarm_detail.id
+        LEFT JOIN ky_category ON ky_category.code = alarm_detail.alarm_type
+
+        <where>
+            <!-- 主表过滤优先，减少 join 数据量 -->
+            <if test="alarmSearchVo.alarmType != null and alarmSearchVo.alarmType != ''">
+                AND alarm_detail.alarm_type = #{alarmSearchVo.alarmType}
+            </if>
+
+            <if test="alarmSearchVo.cameraNames != null and alarmSearchVo.cameraNames.size() > 0">
+                AND alarm_detail.camera_id IN
+                <foreach collection="alarmSearchVo.cameraNames" item="cameraName" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+
+            <if test="alarmSearchVo.categorys != null and alarmSearchVo.categorys.size() > 0">
+                AND ky_category.id IN
+                <foreach collection="alarmSearchVo.categorys" item="category" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+
+            <if test="alarmSearchVo.startTime != null and alarmSearchVo.startTime != '' and alarmSearchVo.endTime != null and alarmSearchVo.endTime != ''">
+                AND alarm_detail.alarm_time BETWEEN #{alarmSearchVo.startTime} AND #{alarmSearchVo.endTime}
+            </if>
+
+            <if test="alarmSearchVo.alarmLevel != null and alarmSearchVo.alarmLevel != ''">
+                AND alarm_detail.alarm_level = #{alarmSearchVo.alarmLevel}
+            </if>
+
+            <if test="alarmSearchVo.auditStatus != null and alarmSearchVo.auditStatus != ''">
+                AND alarm_audit.audit_status = #{alarmSearchVo.auditStatus}
+            </if>
+
+            <if test="alarmSearchVo.auditResult != null and alarmSearchVo.auditResult != ''">
+                AND alarm_audit.audit_result = #{alarmSearchVo.auditResult}
+            </if>
+
+            <if test="alarmSearchVo.isRotate != null">
+                AND alarm_detail.is_rotate = #{alarmSearchVo.isRotate}
+            </if>
+        </where>
+
+        <!-- 更清晰的排序写法 -->
+        <choose>
+            <when test='alarmSearchVo.field == "alarmLevel" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_detail.alarm_level ASC
+            </when>
+            <when test='alarmSearchVo.field == "alarmLevel" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_detail.alarm_level DESC
+            </when>
+            <when test='alarmSearchVo.field == "alarmTime" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_detail.alarm_time ASC
+            </when>
+            <when test='alarmSearchVo.field == "alarmTime" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_detail.alarm_time DESC
+            </when>
+            <when test='alarmSearchVo.field == "auditTime" and alarmSearchVo.order == "ascend"'>
+                ORDER BY alarm_audit.audit_time ASC
+            </when>
+            <when test='alarmSearchVo.field == "auditTime" and alarmSearchVo.order == "descend"'>
+                ORDER BY alarm_audit.audit_time DESC
+            </when>
+            <otherwise>
+                ORDER BY alarm_detail.alarm_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--所有的数量-->
+    <select id="allCount" resultType="java.lang.Integer" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `ky_category`
+        <where>
+            and alarm_audit.alarm_id = alarm_detail.id
+            and ky_category.code = alarm_detail.alarm_type
+            <if test="cameraNames!=null and cameraNames.size()!=0">
+                and alarm_detail.camera_id in
+                <foreach collection="cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and ky_category.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and alarm_detail.alarm_time between #{startTime} and #{endTime}
+            </if>
+            <if test="auditStatus!=null and auditStatus!=''">
+                and alarm_audit.audit_status = #{auditStatus}
+            </if>
+            <if test="auditResult!=null and auditResult!=''">
+                and alarm_audit.audit_result = #{auditResult}
+            </if>
+        </where>
+    </select>
+
+    <!--    提醒的数量-->
+    <select id="remindCount" resultType="java.lang.Integer" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `ky_category`
+        <where>
+            and alarm_audit.alarm_id = alarm_detail.id
+            and ky_category.code = alarm_detail.alarm_type
+            <if test="cameraNames!=null and cameraNames.size()!=0">
+                and alarm_detail.camera_id in
+                <foreach collection="cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and ky_category.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and alarm_detail.alarm_time between #{startTime} and #{endTime}
+            </if>
+            <if test="auditStatus!=null and auditStatus!=''">
+                and alarm_audit.audit_status = #{auditStatus}
+            </if>
+            <if test="auditResult!=null and auditResult!=''">
+                and alarm_audit.audit_result = #{auditResult}
+            </if>
+            and alarm_detail.alarm_level = '1'
+           </where>
+    </select>
+
+    <!--    一般的数量-->
+    <select id="commonCount" resultType="java.lang.Integer" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `ky_category`
+        <where>
+            and alarm_audit.alarm_id = alarm_detail.id
+            and ky_category.code = alarm_detail.alarm_type
+            <if test="cameraNames!=null and cameraNames.size()!=0">
+                and alarm_detail.camera_id in
+                <foreach collection="cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and ky_category.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and alarm_detail.alarm_time between #{startTime} and #{endTime}
+            </if>
+            <if test="auditStatus!=null and auditStatus!=''">
+                and alarm_audit.audit_status = #{auditStatus}
+            </if>
+            <if test="auditResult!=null and auditResult!=''">
+                and alarm_audit.audit_result = #{auditResult}
+            </if>
+            and alarm_detail.alarm_level = '2'
+        </where>
+    </select>
+
+    <!--    警告的数量-->
+    <select id="warningCount" resultType="java.lang.Integer" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `ky_category`
+        <where>
+            and alarm_audit.alarm_id = alarm_detail.id
+            and ky_category.code = alarm_detail.alarm_type
+            <if test="cameraNames!=null and cameraNames.size()!=0">
+                and alarm_detail.camera_id in
+                <foreach collection="cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and ky_category.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and alarm_detail.alarm_time between #{startTime} and #{endTime}
+            </if>
+            <if test="auditStatus!=null and auditStatus!=''">
+                and alarm_audit.audit_status = #{auditStatus}
+            </if>
+            <if test="auditResult!=null and auditResult!=''">
+                and alarm_audit.audit_result = #{auditResult}
+            </if>
+            and alarm_detail.alarm_level = '3'
+        </where>
+    </select>
+
+    <!--    严重的数量-->
+    <select id="seriousCount" resultType="java.lang.Integer" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT count(*) FROM `alarm_detail` INNER JOIN `alarm_audit` INNER JOIN `ky_category`
+        <where>
+            and alarm_audit.alarm_id = alarm_detail.id
+            and ky_category.code = alarm_detail.alarm_type
+            <if test="cameraNames!=null and cameraNames.size()!=0">
+                and alarm_detail.camera_id in
+                <foreach collection="cameraNames" item="cameraName" index="index" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and ky_category.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and alarm_detail.alarm_time between #{startTime} and #{endTime}
+            </if>
+            <if test="auditStatus!=null and auditStatus!=''">
+                and alarm_audit.audit_status = #{auditStatus}
+            </if>
+            <if test="auditResult!=null and auditResult!=''">
+                and alarm_audit.audit_result = #{auditResult}
+            </if>
+            and alarm_detail.alarm_level = '4'
+        </where>
+    </select>
+
+
+    <!--所有的数量-->
+    <select id="getCountFunction" resultType="org.jeecg.modules.alarmDetail.entity.AlarmDetailQueryVo" parameterType="org.jeecg.modules.alarmDetail.entity.AlarmSearchVo">
+        SELECT
+        COUNT(*) AS allCount,
+        SUM(CASE WHEN ad.alarm_level = '0' THEN 1 ELSE 0 END) AS normalCount,
+        SUM(CASE WHEN ad.alarm_level = '1' THEN 1 ELSE 0 END) AS remindCount,
+        SUM(CASE WHEN ad.alarm_level = '2' THEN 1 ELSE 0 END) AS commonCount,
+        SUM(CASE WHEN ad.alarm_level = '3' THEN 1 ELSE 0 END) AS warningCount,
+        SUM(CASE WHEN ad.alarm_level = '4' THEN 1 ELSE 0 END) AS seriousCount
+        FROM alarm_detail ad
+        LEFT JOIN alarm_audit aa ON ad.id = aa.alarm_id
+        LEFT JOIN ky_category kc ON kc.code = ad.alarm_type
+        <where>
+            <!-- 必要条件 -->
+            <if test="cameraNames != null and cameraNames.size() > 0">
+                AND ad.camera_id IN
+                <foreach collection="cameraNames" item="cameraName" open="(" separator="," close=")">
+                    #{cameraName}
+                </foreach>
+            </if>
+
+            <if test="categorys != null and categorys.size() > 0">
+                AND kc.id IN
+                <foreach collection="categorys" item="category" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+
+            <if test="startTime != null and endTime != null">
+                AND ad.alarm_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+
+            <if test="auditStatus != null and auditStatus != ''">
+                AND aa.audit_status = #{auditStatus}
+            </if>
+
+            <if test="auditResult != null and auditResult != ''">
+                AND aa.audit_result = #{auditResult}
+            </if>
+
+            <if test="isRotate != null">
+                AND ad.is_rotate = #{isRotate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCountByCameraIdAndAlgCode" resultType="java.lang.Integer">
+        select count(id) from alarm_detail
+        where camera_id = #{cameraId} and alarm_type = #{algorithmCode} and alarm_time between #{startDate} and #{endDate}
+    </select>
+
+    <!--清空告警记录， 使用truncate-->
+    <update id="truncateTable">
+        truncate table alarm_detail
+    </update>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.kycategory.mapper.KyCategoryMapper">
+
+	<select id="getAreaListByAreaId" resultType="String">
+		SELECT
+			ifnull(GROUP_CONCAT(t2.name SEPARATOR '-'),"(未分组)") as name
+		FROM
+			(
+				SELECT
+					@r AS _id,
+		( SELECT @r := pid FROM ky_category WHERE id = _id ) AS pid,
+		@s := @s + 1 AS sort
+				FROM
+					( SELECT @r := #{alarmAreaId}, @s := 0 ) temp,
+					ky_category
+				WHERE
+					@r > 0 ORDER BY sort DESC
+			) t1
+				JOIN ky_category t2 ON t1._id = t2.id
+
+	</select>
+
+
+	<update id="updateTreeNodeStatus" parameterType="java.lang.String">
+		update ky_category set has_child = #{status} where id = #{id}
+	</update>
+
+  	<!-- 【vue3专用】 -->
+	<select id="queryListByPid" parameterType="java.lang.Object" resultType="org.jeecg.common.system.vo.SelectTreeModel">
+		select
+		  id as "key",
+		  name as "title",
+		  (case when has_child = '1' then 0 else 1 end) as isLeaf,
+		  pid as parentId
+		from ky_category
+		where pid = #{pid}
+		<if test="query != null">
+			<foreach collection="query.entrySet()" item="value" index="key">
+				and ${key} = #{value}
+			</foreach>
+		</if>
+	</select>
+	<select id="getTreeLocationById" resultType="org.jeecg.modules.kycategory.entity.KyCategory">
+		SELECT *
+		FROM
+			(
+				SELECT
+					@r AS _id,
+				(SELECT @r := pid FROM ky_category WHERE id = _id) AS parent_id,
+					@l := @l + 1 AS lvl
+				FROM
+					(SELECT @r := #{locationId}, @l := 0) vars, ky_category AS h
+				WHERE @r != 0
+			) t1
+	    JOIN ky_category ky ON t1._id = ky.Id
+		ORDER BY t1.lvl DESC
+	</select>
+
+
+</mapper>

@@ -1,0 +1,14 @@
+<svg id="icon_loading" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff"/>
+    </radialGradient>
+  </defs>
+  <g id="组_4841" data-name="组 4841" transform="translate(939 -296) rotate(90)">
+    <g id="组_4841-2" data-name="组 4841" transform="translate(294.022 912.959)">
+      <path id="路径_2886" data-name="路径 2886" d="M13.978,4.441a9.6,9.6,0,1,1-9.6,9.6,9.6,9.6,0,0,1,9.6-9.6m0-2.4a12,12,0,1,0,12,12,12.014,12.014,0,0,0-12-12Z" transform="translate(0 0)" fill="#fff" opacity="0.2"/>
+      <path id="路径_2887" data-name="路径 2887" d="M23.576,13.981c0,.017,0,.032,0,.049A9.6,9.6,0,1,1,12.924,4.487,1.187,1.187,0,0,0,13.978,3.3h0a1.211,1.211,0,0,0-1.349-1.2A12,12,0,1,0,25.978,13.983l0,0Z" fill="url(#radial-gradient)"/>
+    </g>
+  </g>
+</svg>

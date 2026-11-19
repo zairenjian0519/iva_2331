@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.algorithmmanager.mapper.AlgorithmManagerMapper">
+    <update id="updateCameraStatus">
+        update camera_manager set run_status = #{status}
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+                and id=#{cameraId}
+            </if>
+        </where>
+    </update>
+    <update id="updateAlgStatus">
+        update algorithm_manager set run_status = #{status}
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+                and belong_to=#{cameraId}
+            </if>
+        </where>
+    </update>
+
+    <select id="getListByCameraId" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        select * from algorithm_manager
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+               and belong_to = #{cameraId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getLicenseNumByDevId" resultType="java.lang.Integer">
+        select count(*) from algorithm_manager
+        <where>
+            <if test='devId!=null and devId!=""'>
+                and belong_to in (select id from camera_manager where camera_ownership = #{devId})
+            </if>
+        </where>
+    </select>
+    <select id="getCameraLicenseByDevId" resultType="java.lang.Integer">
+        SELECT count(DISTINCT belong_to) FROM `algorithm_manager`
+        <where>
+            <if test='deviceId!=null and deviceId!=""'>
+                and belong_to in (select id from camera_manager where camera_ownership = #{deviceId}) and is_rotate != 1
+            </if>
+        </where>
+    </select>
+    <select id="getAllAlgorithmCount" resultType="java.lang.Integer">
+        select count(DISTINCT model_name) as allCount from algorithm_manager
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and algorithm_manager.belong_to in
+                    <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                #{cameraId}
+                    </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and algorithm_manager.model_name in
+                    <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                #{category}
+                    </foreach>
+            </if>
+        </where>
+    </select>
+    <delete id="removeByGroupId">
+        delete from algorithm_manager
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+                and group_id = #{groupId}
+            </if>
+        </where>
+    </delete>
+
+    <select id="getByAlgGroupId" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        SELECT * FROM `algorithm_manager`
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+            and group_id = #{groupId}
+            </if>
+            <if test='algorithmId!=null and algorithmId!=""'>
+                and model_name = #{algorithmId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByGroupId" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        SELECT * FROM `algorithm_manager`
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+                and group_id = #{groupId}
+            </if>
+        </where>
+    </select>
+    <delete id="removeByCameraId">
+        delete from algorithm_manager
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+                and belong_to = #{cameraId}
+            </if>
+        </where>
+    </delete>
+    <delete id="removeByAlgId">
+        delete from algorithm_manager
+        <where>
+            <if test='algId!=null and algId!=""'>
+                and model_name = #{algId}
+            </if>
+        </where>
+    </delete>
+    <select id="getAlarmTypeInfo" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        SELECT algorithm_manager.*,ky_category.name as name FROM `algorithm_manager` left join `ky_category` on algorithm_manager.model_name = ky_category.id
+    </select>
+    <select id="getListByDevId" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        SELECT * FROM `algorithm_manager` LEFT JOIN camera_manager on algorithm_manager.belong_to = camera_manager.id where camera_manager.camera_ownership = #{devId}
+    </select>
+    <select id="getAlgIdsByGroupId" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(DISTINCT model_name SEPARATOR ',') as algIds FROM `algorithm_manager` where group_id = #{id}
+    </select>
+
+    <select id="getByCameraIdAndAlgorithmCode" resultType="org.jeecg.modules.algorithmmanager.entity.AlgorithmManager">
+        SELECT am.* FROM algorithm_manager am left join ky_category kc on am.model_name = kc.id
+        <where>
+            <if test='cameraId!=null and cameraId!=""'>
+                and am.belong_to = #{cameraId}
+            </if>
+            <if test='algorithmId!=null and algorithmId!=""'>
+                and kc.code = #{algorithmId}
+            </if>
+        </where>
+    </select>
+</mapper>

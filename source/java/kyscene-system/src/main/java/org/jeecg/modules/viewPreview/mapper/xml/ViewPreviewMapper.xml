@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.viewPreview.mapper.ViewPreviewMapper">
+<!--    1.根据相机id多选查询 查找id在前端传来的ids里的相机-->
+<!--    2.根据告警类型名称多选查询 需要遍历类型名 查找相机是否包含传来的类型-->
+    <select id="selectCameraList" resultType="org.jeecg.modules.viewPreview.entity.ViewPreview">
+        select distinct camera_manager.* from (camera_manager left join algorithm_manager on camera_manager.id = algorithm_manager.belong_to)
+            left join ky_category on ky_category.id = algorithm_manager.model_name and algorithm_manager.is_rotate != 1
+        <where>
+                <if test="ids!=null and ids.size()!=0">
+                    and camera_manager.id in
+                    <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+                        #{id}
+                    </foreach>
+                </if>
+                <if test="categorys!=null and categorys.size()!=0">
+                    and ky_category.id in
+                    <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                        #{category}
+                    </foreach>
+                </if>
+            </where>
+    </select>
+    <select id="getAlgorithm" resultType="String">
+        SELECT GROUP_CONCAT(t.name) AS alarmTypeDict
+        from (select ky_category.name,camera_manager.id from
+        (camera_manager left join algorithm_manager on camera_manager.id = algorithm_manager.belong_to)
+        left join ky_category
+        on ky_category.id = algorithm_manager.model_name and algorithm_manager.is_rotate=1 ORDER BY ky_category.name)
+        as t WHERE t.id = #{cameraId}
+    </select>
+    <select id="getAllAlgorithm" resultType="String">
+        SELECT GROUP_CONCAT(t.name) AS alarmTypeDict
+        from (select ky_category.name,camera_manager.id from
+            (camera_manager left join algorithm_manager on camera_manager.id = algorithm_manager.belong_to)
+                left join ky_category
+                          on ky_category.id = algorithm_manager.model_name ORDER BY ky_category.name)
+                 as t WHERE t.id = #{cameraId}
+    </select>
+    <select id="getAlarmCountByCamera" resultType="org.jeecg.modules.viewPreview.entity.AlarmCountVo">
+        SELECT alarm_detail.camera_id,sum(CASE when alarm_detail.alarm_level = '4' then 1 else 0 end) as seriousCount,
+         count(*) as allCount
+        FROM alarm_detail inner join alarm_audit
+        WHERE alarm_detail.id = alarm_audit.alarm_id
+          and alarm_audit.audit_status = '0' GROUP BY alarm_detail.camera_id
+    </select>
+
+</mapper>

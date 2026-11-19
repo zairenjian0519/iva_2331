@@ -1,0 +1,16 @@
+[Unit]
+Description=Duchen RK3588 Python RKNNLite shadow engine
+After=network-online.target redis-server.service ai_server_rk3588_python.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/duchun-rk3588-python-shadow.env
+WorkingDirectory=/userdata/sps_test/iva_python/duchun_rk3588_python
+Environment=PYTHONPATH=/userdata/sps_test/iva_python/duchun_rk3588_python:/userdata/sps_test/iva_python/duchun_rk3588_python/python
+ExecStart=/userdata/sps_test/iva_python/python_mpp/.venv/bin/python -m app.shadow_engine
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

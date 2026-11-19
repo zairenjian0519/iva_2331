@@ -1,0 +1,70 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /kyscene
+  tomcat:
+    max-swallow-size: -1
+  error:
+    include-exception: true
+    include-stacktrace: ALWAYS
+    include-message: ALWAYS
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 400MB
+      max-request-size: 400MB
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          type: com.zaxxer.hikari.HikariDataSource
+          url: ${KYSCENE_DB_URL}
+          username: ${KYSCENE_DB_USER}
+          password: ${KYSCENE_DB_PASSWORD}
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          hikari:
+            min-idle: 5
+            max-pool-size: 20
+            connection-timeout: 30000
+            idle-timeout: 600000
+            max-lifetime: 1800000
+            connection-test-query: SELECT 1
+  redis:
+    database: ${KYSCENE_REDIS_DATABASE:1}
+    host: ${KYSCENE_REDIS_HOST:127.0.0.1}
+    port: ${KYSCENE_REDIS_PORT:6379}
+    password: ${KYSCENE_REDIS_PASSWORD:}
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    auto-startup: true
+    overwrite-existing-jobs: true
+
+jeecg:
+  path:
+    upload: ${KYSCENE_UPLOAD_PATH}
+    exportXls: ${KYSCENE_UPLOAD_PATH}/exportCamera.xlsx
+  uploadType: local
+
+upload-update:
+  path: /userdata/sps_test/iva-kyscene/data/update/
+  web-front-path: /userdata/sps_test/iva-kyscene/web/
+  web-backend-path: /userdata/sps_test/iva-kyscene/platform/
+  algorithm-path: /userdata/sps_test/iva-kyscene/data/ai/
+  algorithm-plugin-path: /userdata/sps_test/iva-kyscene/data/ai/tools/plugin/obj/
+  thumbnail-path: /userdata/sps_test/iva-kyscene/data/alarm_picture/download/show_image/
+
+iot:
+  mqtt:
+    host: ${KYSCENE_MQTT_HOST:127.0.0.1}
+    port: ${KYSCENE_MQTT_PORT:1883}
+    username: ${KYSCENE_MQTT_USERNAME:}
+    password: ${KYSCENE_MQTT_PASSWORD:}
+
+face:
+  base-face-path: /userdata/sps_test/iva-kyscene/data/face/
+  npy-file-path: /userdata/sps_test/iva-kyscene/data/face_features/

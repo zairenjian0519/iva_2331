@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.cameraGroupCamera.mapper.CameraGroupCameraMapper">
+
+    <select id="getCameraByGroupId" resultType="org.jeecg.modules.cameraGroupCamera.entity.CameraGroupCamera">
+        select * from camera_group_camera
+        <where>
+            <if test='groupId!=null and groupId!=""'>
+                and group_id = #{groupId}
+            </if>
+                and camera_id != ''
+        </where>
+    </select>
+
+    <delete id="removeByGroupId">
+        delete from camera_group_camera where group_id = #{id}
+    </delete>
+
+    <select id="getCameraIds" resultType="String">
+        SELECT GROUP_CONCAT(camera_id SEPARATOR ',') AS cameraIds FROM `camera_group_camera` where group_id = #{groupId}
+    </select>
+    <select id="getAlgIds" resultType="String">
+        SELECT GROUP_CONCAT(model_name SEPARATOR ',') AS algIds FROM `camera_group_algorithm` where group_id = #{groupId}
+    </select>
+    <select id="getByDeviceId" resultType="org.jeecg.modules.cameraGroupCamera.entity.CameraGroupCamera">
+        SELECT * FROM `camera_group_camera` left join camera_manager on camera_group_camera.camera_id = camera_manager.id where camera_manager.camera_ownership = #{devId}
+    </select>
+</mapper>

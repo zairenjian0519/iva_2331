@@ -1,0 +1,16 @@
+[Unit]
+Description=Duchen RK3588 Python shadow API
+After=network-online.target redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/duchun-rk3588-python-shadow.env
+WorkingDirectory=/userdata/sps_test/iva_python/duchun_rk3588_python
+Environment=PYTHONPATH=/userdata/sps_test/iva_python/duchun_rk3588_python:/userdata/sps_test/iva_python/duchun_rk3588_python/python
+ExecStart=/userdata/sps_test/iva_python/python_mpp/.venv/bin/python -m uvicorn app.shadow_server:app --host 127.0.0.1 --port 8898
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

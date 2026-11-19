@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+CONFIG_FILE=${AI_MODEL_MONITOR_CONFIG:-/etc/ai-model-monitor.conf}
+PID_FILE=/run/ai_model_service.pid
+
+[ "$(id -u)" -eq 0 ] || { echo "run as root" >&2; exit 1; }
+[ -r "$CONFIG_FILE" ] || { echo "cannot read $CONFIG_FILE" >&2; exit 1; }
+# shellcheck source=/dev/null
+. "$CONFIG_FILE"
+
+: "${NAMESPACE:?NAMESPACE is required}"
+: "${CONTAINER_NAME:?CONTAINER_NAME is required}"
+
+task_status() {
+    ctr --namespace "$NAMESPACE" tasks list 2>/dev/null |
+        awk -v name="$CONTAINER_NAME" 'NR > 1 && $1 == name { print $3; exit }'
+}
+
+task_pid() {
+    ctr --namespace "$NAMESPACE" tasks list 2>/dev/null |
+        awk -v name="$CONTAINER_NAME" 'NR > 1 && $1 == name && $3 == "RUNNING" { print $2; exit }'
+}
+
+start_task() {
+    ctr --namespace "$NAMESPACE" containers info "$CONTAINER_NAME" >/dev/null
+    if [ "$(task_status || true)" = RUNNING ]; then
+        task_pid > "$PID_FILE"
+        return 0
+    fi
+    if [ -n "$(task_status || true)" ]; then
+        ctr --namespace "$NAMESPACE" tasks delete --force "$CONTAINER_NAME" >/dev/null
+    fi
+    rm -f -- "$PID_FILE"
+    ctr --namespace "$NAMESPACE" tasks start --detach --pid-file "$PID_FILE" "$CONTAINER_NAME"
+    sleep 1
+    [ -n "$(task_pid || true)" ] || { echo "model task did not enter RUNNING" >&2; exit 1; }
+}
+
+stop_task() {
+    local status attempt
+    status=$(task_status || true)
+    if [ "$status" = RUNNING ]; then
+        ctr --namespace "$NAMESPACE" tasks kill --signal SIGTERM "$CONTAINER_NAME" >/dev/null || true
+        for attempt in $(seq 1 20); do
+            status=$(task_status || true)
+            [ "$status" != RUNNING ] && break
+            sleep 1
+        done
+    fi
+    status=$(task_status || true)
+    if [ "$status" = RUNNING ]; then
+        ctr --namespace "$NAMESPACE" tasks kill --signal SIGKILL "$CONTAINER_NAME" >/dev/null || true
+        sleep 1
+    fi
+    if [ -n "$(task_status || true)" ]; then
+        ctr --namespace "$NAMESPACE" tasks delete --force "$CONTAINER_NAME" >/dev/null || true
+    fi
+    rm -f -- "$PID_FILE"
+}
+
+case "${1:-status}" in
+    start) start_task ;;
+    stop) stop_task ;;
+    status)
+        printf 'container=%s status=%s pid=%s\n' \
+            "$CONTAINER_NAME" "$(task_status || echo absent)" "$(task_pid || true)"
+        ;;
+    *) echo "usage: $0 {start|stop|status}" >&2; exit 2 ;;
+esac

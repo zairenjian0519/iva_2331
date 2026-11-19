@@ -1,0 +1,8 @@
+<svg id="algo_btn_roirectangle_default" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <g id="组_7247" data-name="组 7247" transform="translate(-32 -21.5)">
+    <g id="组_7246" data-name="组 7246" transform="translate(27 16.5)">
+      <path id="矩形_6801" data-name="矩形 6801" d="M1,1V8H11V1H1M.4,0H11.6a.4.4,0,0,1,.4.4V8.6a.4.4,0,0,1-.4.4H.4A.4.4,0,0,1,0,8.6V.4A.4.4,0,0,1,.4,0Z" transform="translate(6 7.5)" fill="#7089e0"/>
+    </g>
+  </g>
+  <rect id="矩形_6802" data-name="矩形 6802" width="14" height="14" fill="none"/>
+</svg>

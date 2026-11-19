@@ -1,0 +1,1 @@
+import{B as l,D as s,E as r,k as n,a6 as e,ae as i,J as p,a7 as c,u as f,a9 as _}from"./vendor.52b903d0.js";const v=l({props:{tooltipTitle:null},setup(t){const a=_;return(o,u)=>(s(),r("div",null,[n(f(a),{color:"#ffffff",overlayClassName:"overlay-class"},{title:e(()=>[i(p(t.tooltipTitle),1)]),default:e(()=>[c(o.$slots,"default")]),_:3})]))}});export{v as _};

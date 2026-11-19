@@ -1,0 +1,12 @@
+<svg id="info_icon_assignedrole" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+  <g id="组_7224" data-name="组 7224" transform="translate(-6 -5.998)">
+    <path id="矩形_6745" data-name="矩形 6745" d="M.4,0h.7a.4.4,0,0,1,.4.4V6.6a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V.4A.4.4,0,0,1,.4,0Z" transform="translate(14.25 5.998)" fill="#d3d9e8"/>
+    <g id="组_7210" data-name="组 7210">
+      <rect id="矩形_6746" data-name="矩形 6746" width="6.5" height="1.5" rx="0.4" transform="translate(6 6.75)" fill="#d3d9e8"/>
+      <rect id="矩形_6747" data-name="矩形 6747" width="4.75" height="1.5" rx="0.4" transform="translate(6 11.25)" fill="#d3d9e8"/>
+      <rect id="矩形_6748" data-name="矩形 6748" width="3.5" height="1.5" rx="0.4" transform="translate(6 15.75)" fill="#d3d9e8"/>
+    </g>
+    <path id="矩形_6749" data-name="矩形 6749" d="M0,0H1.6A.4.4,0,0,1,2,.4v.7a.4.4,0,0,1-.4.4H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(14.751 6.75)" fill="#d3d9e8"/>
+    <path id="路径_3184" data-name="路径 3184" d="M15,13.5A1.5,1.5,0,1,1,13.5,15,1.5,1.5,0,0,1,15,13.5M15,12a3,3,0,1,0,3,3,3,3,0,0,0-3-3Z" fill="#d3d9e8"/>
+  </g>
+</svg>

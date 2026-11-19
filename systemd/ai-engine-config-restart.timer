@@ -1,0 +1,8 @@
+[Unit]
+Description=Coalesce AI engine configuration restarts
+
+[Timer]
+OnActiveSec=10s
+AccuracySec=1s
+Unit=ai-engine-config-restart.service
+RemainAfterElapse=no

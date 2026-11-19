@@ -1,0 +1,47 @@
+{
+  "name": "rk3588-rk182x-iva-offline",
+  "version": "3.0.9-history-clean-generic-h264-rkmpp-container-regex-permission-checksum-fix",
+  "target_profile": "ok3588-vda",
+  "target_kernel": "5.10.0",
+  "target_root_disk": "/dev/vda:42949672960",
+  "model_mode": "container",
+  "model_container_namespace": "ai-model",
+  "model_container_image": "docker.io/library/ai_model_service:rk3588-rknn-package-3.0.9-h264-rkmpp-20261116-164221",
+  "model_container_image_sha256": "7a28e8cad7c53b826d0a95184d2a0018cf7c47c6d9aa59727dcc4cceca268365",
+  "h265_output_encoder": "h264_rkmpp",
+  "architecture": "aarch64",
+  "built_at_utc": "2026-11-16T00:00:00+00:00",
+  "database_tables": 102,
+  "model_roles": [
+    "person_helmet",
+    "smoking_phone",
+    "reflective_clothes",
+    "fire_smoke",
+    "safety_belt",
+    "mask",
+    "vehicle",
+    "bolt",
+    "oil_leak",
+    "uniform",
+    "pipe_oil_leak"
+  ],
+  "rk182x_model_roles": [
+    "person_helmet",
+    "smoking_phone",
+    "reflective_clothes",
+    "fire_smoke",
+    "safety_belt",
+    "mask",
+    "vehicle",
+    "bolt",
+    "oil_leak",
+    "uniform",
+    "pipe_oil_leak"
+  ],
+  "source_checksums": {
+    "kyscene_jar": "e7d3a77bcb37d27383081f4c85f2a84f03143b52a37c179e6edf6489ebc20e06",
+    "web_index": "e30c04cfae2b090b336bb4ab1459266c84a7072fdc632f7126320358bc6bc1f5",
+    "rk3588_model_manifest": "a4c20f2be64d89776f24a261e01e6be79a4ca51fc472e12e0e70d8635212b338",
+    "rk182x_sdk_wheel": "1da449c04148dd7cb8f70a54435e2295912a3deee7a0ba53675a648d91b221e9"
+  }
+}

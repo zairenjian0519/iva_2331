@@ -1,0 +1,12 @@
+<svg id="editor_btn_export_default" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <rect id="矩形_1186" data-name="矩形 1186" width="14" height="14" fill="none"/>
+  <g id="组_7100" data-name="组 7100" transform="translate(-5.5 -5)">
+    <g id="组_7098" data-name="组 7098" transform="translate(9.082 10.282)">
+      <g id="组_7097" data-name="组 7097">
+        <path id="矩形_6632" data-name="矩形 6632" d="M.25,0H8A0,0,0,0,1,8,0V1.2a0,0,0,0,1,0,0H.25A.25.25,0,0,1,0,.951V.25A.25.25,0,0,1,.25,0Z" transform="translate(0 1.121)" fill="#4d5980"/>
+        <path id="路径_3158" data-name="路径 3158" d="M10.941,12.142,9.423,13.661a.2.2,0,0,1-.341-.142V10.483a.2.2,0,0,1,.341-.142l1.518,1.519A.2.2,0,0,1,10.941,12.142Z" transform="translate(-1.083 -10.282)" fill="#4d5980"/>
+      </g>
+    </g>
+    <path id="路径_3159" data-name="路径 3159" d="M12.75,7.7A.25.25,0,0,0,13,7.45v-.7a.25.25,0,0,0-.25-.25H7a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1h5.75a.25.25,0,0,0,.25-.25v-.7a.25.25,0,0,0-.25-.25H7.45a.25.25,0,0,1-.25-.25V7.95a.25.25,0,0,1,.25-.25h5.3Z" fill="#4d5980"/>
+  </g>
+</svg>

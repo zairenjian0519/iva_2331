@@ -1,0 +1,24 @@
+[Unit]
+Description=KyScene Spring Boot backend
+After=network-online.target mysql.service mosquitto.service redis-server.service kyscene-zlmediakit.service
+Wants=network-online.target kyscene-zlmediakit.service
+
+[Service]
+Type=simple
+User=forlinx
+Group=forlinx
+WorkingDirectory=/userdata/sps_test/iva-kyscene
+EnvironmentFile=/userdata/sps_test/iva-kyscene/config/platform.env
+Environment=TZ=Asia/Shanghai
+Environment=KYSCENE_STREAM_TRANSCODER=rockchip
+Environment=KYSCENE_ALARM_STORAGE_PATH=/userdata
+Environment=KYSCENE_ALARM_ROOT=/userdata/sps_test/iva-kyscene/data/alarm_picture/download
+Environment="JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=/userdata/sps_test/iva-kyscene/data/tmp -Duser.timezone=Asia/Shanghai"
+ExecStart=/usr/bin/java -Djava.io.tmpdir=/userdata/sps_test/iva-kyscene/data/tmp -jar /userdata/sps_test/iva-kyscene/platform/kyscene-system-3.4.0.jar --spring.profiles.active=prod --spring.config.additional-location=file:/userdata/sps_test/iva-kyscene/config/
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

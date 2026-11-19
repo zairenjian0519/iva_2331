@@ -1,0 +1,27 @@
+{
+  "alarmTypeCode": "4",
+  "deviceIp": "192.168.1.100",
+  "alarmTime": 1730352415000,
+  "deviceName": "ceshi",
+  "deviceSn": "KYLAND-8899",
+  "projectKey": "1001A3100000007F6IY3",
+  "alarmLevelCode": "1",
+  "groupNames": ["001"],
+  "alarmType": "未佩戴安全帽",
+  "alarmPictureBase64": "base64",
+  "cameraId": "7000001184135194",
+  "cameraSn": "SY56789",
+  "cameraIp": "192.168.3.81",
+  "alarmLevel": "提醒",
+  "id": "1851858369330192386",
+  "alarmPictureUrl": "http://192.168.1.100:8038/alarmImg/home/sup-31_13_26_55_598868_4.jpg",
+  "cameraName": "81",
+  "alarmPerson": {
+    "name": "张三",
+    "idCard": "123456789012345678",
+    "phone": "13888888888",
+    "personId": "1",
+    "facePictureBase64": "base64",
+    "remark": "备注"
+  }
+}

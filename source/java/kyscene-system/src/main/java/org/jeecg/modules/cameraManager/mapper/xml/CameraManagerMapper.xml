@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.cameraManager.mapper.CameraManagerMapper">
+    <select id="pageList" parameterType="org.jeecg.modules.cameraManager.entity.CameraManager" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        select * from (select cm.* ,GROUP_CONCAT(al.model_name) AS modelName, GROUP_CONCAT(ky.name) as alarmType from (
+            (camera_manager as cm left join algorithm_manager as al
+                on cm.id = al.belong_to and al.is_rotate != 1)
+                left join ky_category as ky
+                          on ky.id = al.model_name)
+                                GROUP BY cm.id ) as temp
+        <where>
+            <if test='cameraManager.cameraOwnership != null and cameraManager.cameraOwnership != "" '>
+                and temp.camera_ownership = #{cameraManager.cameraOwnership}
+            </if>
+
+            <if test='cameraManager.location != null and cameraManager.location != "" '>
+                and temp.location in (
+                SELECT * FROM (
+                     SELECT au.id FROM ( SELECT * FROM ky_category WHERE pid IS NOT NULL ) au, (SELECT @pid := #{cameraManager.location}) pd
+                        WHERE FIND_IN_SET(pid, @pid) > 0 AND @pid := concat(@pid, ',', id) UNION
+                            SELECT id FROM ky_category WHERE id = #{cameraManager.location}) AS t1
+                            )
+            </if>
+
+            <if test='cameraManager.factory != null and cameraManager.factory != "" '>
+                and temp.factory = #{cameraManager.factory}
+            </if>
+
+            <if test='cameraManager.cameraName != null and cameraManager.cameraName != "" '>
+                and temp.camera_name like CONCAT('%',#{cameraManager.cameraName},'%')
+            </if>
+
+            <if test="cameraManager.categorys!=null and cameraManager.categorys.size()!=0">
+                and
+                <foreach collection="cameraManager.categorys" item="category" index="index" open="(" separator="or" close=")">
+                     LOCATE (#{category},temp.modelName) > 0
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="onLineCameraCount" parameterType="org.jeecg.modules.cameraManager.entity.CameraManager" resultType="Integer">
+        select COUNT(*) from (select * from (select cm.* ,GROUP_CONCAT(al.model_name) AS modelName, GROUP_CONCAT(ky.name) as alarmType from (
+        (camera_manager as cm left join algorithm_manager as al
+        on cm.id = al.belong_to)
+        left join ky_category as ky
+        on ky.id = al.model_name) WHERE cm.camera_status ='1'
+        GROUP BY cm.id ) as temp
+        <where>
+            <if test='cameraManager.cameraOwnership != null and cameraManager.cameraOwnership != "" '>
+                and temp.camera_ownership = #{cameraManager.cameraOwnership}
+            </if>
+
+            <if test='cameraManager.location != null and cameraManager.location != "" '>
+                and temp.location in (
+                SELECT au.id FROM ( SELECT * FROM ky_category WHERE pid IS NOT NULL ) au, (SELECT @pid :=
+                #{cameraManager.location}) pd
+                WHERE FIND_IN_SET(pid, @pid) > 0 AND @pid := concat(@pid, ',', id) UNION
+                SELECT id FROM ky_category WHERE id = #{cameraManager.location}
+                )
+            </if>
+            <if test='cameraManager.factory != null and cameraManager.factory != "" '>
+                and temp.factory = #{cameraManager.factory}
+            </if>
+
+            <if test='cameraManager.cameraName != null and cameraManager.cameraName != "" '>
+                and temp.camera_name like CONCAT('%',#{cameraManager.cameraName},'%')
+            </if>
+
+            <if test="cameraManager.categorys!=null and cameraManager.categorys.size()!=0">
+                and
+                <foreach collection="cameraManager.categorys" item="category" index="index" open="(" separator="or"
+                         close=")">
+                    LOCATE (#{category},temp.modelName) > 0
+                </foreach>
+            </if>
+        </where>
+                  ) as tt
+    </select>
+    <select id="getListByDeviceId" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        select * from camera_manager
+        <where>
+            <if test='deviceId!=null and deviceId!=""'>
+                and camera_ownership = #{deviceId}
+            </if>
+        </where>
+    </select>
+    <update id="updateStatusById">
+        update camera_manager set camera_status=#{status} where id=#{cameraId}
+    </update>
+
+    <select id="getCountNum" resultType="Integer">
+        SELECT COUNT(*) FROM camera_manager WHERE camera_manager.location in
+        <foreach collection="ids" item="treeId" index="index" open="(" separator="," close=")">
+            #{treeId}
+        </foreach>
+    </select>
+
+    <select id="exportCamera" parameterType="org.jeecg.modules.cameraManager.entity.CameraManager" resultType="org.jeecg.modules.cameraManager.entity.ExportCamera">
+        SELECT
+            cm.*,
+            (SELECT ky.NAME FROM ky_category ky WHERE ky.id = cm.location) AS locationName,
+            (SELECT sy.item_text FROM sys_dict_item sy LEFT JOIN sys_dict sd on sd.id = sy.dict_id where sd.dict_code = 'factory_name' and sy.item_value = cm.factory) AS factoryName,
+            (SELECT dm.device_name FROM device_management dm WHERE cm.camera_ownership = dm.id) as deviceName,
+            (SELECT sy.item_text FROM sys_dict_item sy LEFT JOIN sys_dict sd on sd.id = sy.dict_id where sd.dict_code = 'stream_type' and sy.item_value = cm.stream_type) AS streamType,
+            (SELECT sy.item_text FROM sys_dict_item sy LEFT JOIN sys_dict sd on sd.id = sy.dict_id where sd.dict_code = 'stream_format' and sy.item_value = cm.stream_format) AS streamFormat,
+            (SELECT cf.camera_type FROM camera_factory cf WHERE cf.id = cm.camera_type )as cameraType,
+            if(cm.camera_status ='1','在线','离线') as cameraStatus
+        FROM
+            camera_manager AS cm
+        <where>
+            <if test='cameraManager.cameraOwnership != null and cameraManager.cameraOwnership != "" '>
+                and cm.camera_ownership = #{cameraManager.cameraOwnership}
+            </if>
+            <if test='cameraManager.location != null and cameraManager.location != "" '>
+                and cm.location = #{cameraManager.location}
+            </if>
+        </where>
+    </select>
+    <select id="getLastByDeviceId" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        select * from camera_manager
+        <where>
+            <if test='devId != null and devId !=""'>
+                id LIKE concat((select device_code FROM device_management where id = #{devId}), '%') ORDER BY id desc limit 1
+            </if>
+        </where>
+    </select>
+
+    <update id="deleteLocation">
+        UPDATE camera_manager set location = '0' where camera_manager.location in
+          <foreach collection="treeIds" item="treeId" index="index" open="(" separator="," close=")">
+            #{treeId}
+          </foreach>
+    </update>
+
+    <delete id="deleteAlarm" >
+        DELETE alarm_detail,alarm_audit from alarm_detail INNER JOIN alarm_audit ON alarm_audit.alarm_id = alarm_detail.id where alarm_detail.camera_id = #{cameraId}
+    </delete>
+
+
+    <select id="getTreeId" resultType="String">
+        SELECT t.id FROM ( SELECT au.id FROM ( SELECT * FROM ky_category WHERE pid IS NOT NULL ) au, ( SELECT @pid := #{categoryId}) pd
+            WHERE FIND_IN_SET(pid, @pid) > 0 AND @pid := concat(@pid, ',', id)
+            UNION
+            SELECT id
+            FROM ky_category
+            WHERE id = #{categoryId}
+            ) AS t
+    </select>
+
+
+    <select id="getAlgorithm" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        SELECT cm.*,
+               GROUP_CONCAT(DISTINCT al.model_name ORDER BY al.model_name SEPARATOR ',') AS modelName,
+               GROUP_CONCAT(DISTINCT ky.code ORDER BY ky.code SEPARATOR ',')             AS alarmType,
+               GROUP_CONCAT(DISTINCT ky.name ORDER BY ky.name SEPARATOR ',')             AS categorys
+        FROM camera_manager AS cm
+                 LEFT JOIN algorithm_manager AS al ON cm.id = al.belong_to
+                 LEFT JOIN ky_category AS ky ON ky.id = al.model_name AND al.is_rotate != 1
+        GROUP BY cm.id
+        ORDER BY categorys
+    </select>
+
+    <select id="getCameraByGroup" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        SELECT *
+        FROM `camera_manager`
+                 INNER JOIN `algorithm_manager` on camera_manager.id = algorithm_manager.belong_to
+            and algorithm_manager.group_id = #{groupId} and camera_ownership = #{deviceId}
+        group by camera_manager.id
+    </select>
+
+    <select id="getCameraByGroups" resultType="org.jeecg.modules.cameraManager.entity.CameraManager">
+        SELECT
+            *
+        FROM
+            `camera_manager`
+            INNER JOIN `algorithm_manager` ON camera_manager.id = algorithm_manager.belong_to
+            AND algorithm_manager.group_id IN
+            <foreach collection="groupIds" item="groupId" open="(" close=")" separator=",">
+                #{groupId}
+            </foreach>
+            AND camera_ownership = #{deviceId}
+        GROUP BY
+            camera_manager.id
+    </select>
+</mapper>

@@ -1,0 +1,9 @@
+<svg id="editor_btn_edit_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="矩形_6399" data-name="矩形 6399" width="20" height="20" rx="2" fill="#f1f3f8"/>
+  <g id="组_7126" data-name="组 7126" transform="translate(-1.496 -0.865)">
+    <g id="组_5739" data-name="组 5739">
+      <path id="路径_2978" data-name="路径 2978" d="M7.781,16H6.046a.4.4,0,0,1-.4-.4V13.863a.4.4,0,0,1,.118-.283l7.922-7.922a1,1,0,0,1,1.413,0l.883.882a1,1,0,0,1,0,1.414L8.064,15.88A.4.4,0,0,1,7.781,16Z" fill="#757fa3"/>
+    </g>
+    <rect id="矩形_6660" data-name="矩形 6660" width="6" height="1.5" rx="0.4" transform="translate(11.327 14.498)" fill="#757fa3"/>
+  </g>
+</svg>

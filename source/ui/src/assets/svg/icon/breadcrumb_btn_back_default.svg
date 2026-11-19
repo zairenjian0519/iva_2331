@@ -1,0 +1,7 @@
+<svg id="breadcrumb_btn_back_default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="矩形_5140" data-name="矩形 5140" width="16" height="16" rx="2" transform="translate(2 2)" fill="#e4e8f1"/>
+  <g id="组_4208" data-name="组 4208" transform="translate(-3 -2)">
+    <path id="路径_2753" data-name="路径 2753" d="M0,0H20V20H0Z" transform="translate(3 2)" fill="none"/>
+  </g>
+  <path id="路径_2883" data-name="路径 2883" d="M17.977,8.512l2.828-2.828a.5.5,0,0,0,0-.707l-.353-.354a.5.5,0,0,0-.708,0L16.209,8.159a.5.5,0,0,0,0,.707L19.744,12.4a.5.5,0,0,0,.708,0l.353-.353a.5.5,0,0,0,0-.707Z" transform="translate(-8.813 1.523)" fill="#adb4cc"/>
+</svg>

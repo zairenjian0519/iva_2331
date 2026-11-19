@@ -1,0 +1,1 @@
+import{_ as s}from"./Exception.vue_vue_type_style_index_0_lang.c0b4ce59.js";import{aK as t}from"./index.b24b133b.js";import{B as a,r as n,D as o,a1 as r,u as _}from"./vendor.52b903d0.js";const l=a({setup(c){const e=n(t.PAGE_NOT_DATA);return(u,p)=>(o(),r(_(s),{status:e.value},null,8,["status"]))}});export{l as default};

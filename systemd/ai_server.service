@@ -1,0 +1,17 @@
+[Unit]
+Description=Duchen RK3588 Python API and alarm service
+Wants=network-online.target redis-server.service mosquitto.service kyscene.service
+After=network-online.target redis-server.service mosquitto.service kyscene.service
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/duchun-rk3588-python.env
+WorkingDirectory=/userdata/sps_test/iva_python/duchun_rk3588_python
+Environment=PYTHONPATH=/userdata/sps_test/iva_python/duchun_rk3588_python:/userdata/sps_test/iva_python/duchun_rk3588_python/python
+ExecStartPre=/usr/local/sbin/iva-wait-ready server 180
+ExecStart=/userdata/sps_test/iva_python/python_mpp/.venv/bin/python -m uvicorn app.active_server:app --host 0.0.0.0 --port 8899
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

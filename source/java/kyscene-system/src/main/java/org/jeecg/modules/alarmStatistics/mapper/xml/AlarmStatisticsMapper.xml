@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.alarmStatistics.mapper.AlarmStatisticsMapper">
+    <select id="cameraCountList" resultType="org.jeecg.modules.alarmStatistics.entity.CountVo">
+        SELECT ad.camera_name as 'name', COUNT(ad.camera_id) as 'value'
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON ad.alarm_type = kc.code
+            <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+                and ad.alarm_level!='0'
+        </where>
+        GROUP BY ad.camera_name
+        ORDER BY value DESC
+
+    </select>
+
+    <select id="locationCountList" resultType="org.jeecg.modules.alarmStatistics.entity.CountVo">
+        SELECT kc.name as 'name', kc.id as 'areaId', COUNT(ad.alarm_area) as 'value'
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON ad.alarm_area = kc.id
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+            and ad.alarm_level!='0'
+        </where>
+        GROUP BY kc.id, kc.name
+        ORDER BY value DESC
+    </select>
+
+
+    <select id="typeCountList" resultType="org.jeecg.modules.alarmStatistics.entity.CountVo">
+        SELECT kc.name as 'name', COUNT(ad.alarm_type) as 'value'
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON ad.alarm_type = kc.code
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+            and ad.alarm_level!='0'
+        </where>
+        GROUP BY kc.id, kc.name
+    </select>
+
+    <select id="hourCountList" resultType="org.jeecg.modules.alarmStatistics.entity.HourCountVo">
+        SELECT a.hour hour, ifnull(sum(b.count), 0) value
+        FROM
+        (SELECT 0 hour UNION ALL SELECT 1 hour UNION ALL
+        SELECT 2 hour UNION ALL SELECT 3 hour UNION ALL
+        SELECT 4 hour UNION ALL SELECT 5 hour UNION ALL
+        SELECT 6 hour UNION ALL SELECT 7 hour UNION ALL
+        SELECT 8 hour UNION ALL SELECT 9 hour UNION ALL
+        SELECT 10 hour UNION ALL SELECT 11 hour UNION ALL
+        SELECT 12 hour UNION ALL SELECT 13 hour UNION ALL
+        SELECT 14 hour UNION ALL SELECT 15 hour UNION ALL
+        SELECT 16 hour UNION ALL SELECT 17 hour UNION ALL
+        SELECT 18 hour UNION ALL SELECT 19 hour UNION ALL
+        SELECT 20 hour UNION ALL SELECT 21 hour UNION ALL
+        SELECT 22 hour UNION ALL SELECT 23 hour) a
+        LEFT JOIN
+        (SELECT hour(ad.alarm_time) as hour, count(ad.alarm_time) as count
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON ad.alarm_type = kc.code
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+            and ad.alarm_level!='0'
+        </where>
+        GROUP BY date_format(ad.alarm_time, '%Y%m%d-%H'), hour) as b
+        ON a.hour=b.hour GROUP BY hour
+    </select>
+
+    <select id="dateCountList" resultType="org.jeecg.modules.alarmStatistics.entity.DateCountVo">
+        select DATE_FORMAT(ad.alarm_time,'%Y-%m-%d') as 'date',
+        count(if(ad.alarm_level!='0',true,null)) as 'value',
+        count(if(ad.alarm_level='4',true,null)) as 'seriousValue',
+        count(if(ad.alarm_level='3',true,null)) as 'warningValue',
+        count(if(ad.alarm_level='2',true,null)) as 'commonValue',
+        count(if(ad.alarm_level='1',true,null)) as 'remindValue'
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON ad.alarm_type = kc.code
+            <where>
+                <if test="cameraIds!=null and cameraIds.size()!=0">
+                    and ad.camera_id in
+                    <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                        #{cameraId}
+                    </foreach>
+                </if>
+                <if test="categorys!=null and categorys.size()!=0">
+                    and kc.id in
+                    <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                        #{category}
+                    </foreach>
+                </if>
+                <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                    and ad.alarm_time between #{startTime} and #{endTime}
+                </if>
+            </where>
+        group by DATE_FORMAT(ad.alarm_time,'%Y-%m-%d')
+    </select>
+    <select id="mainCount" resultType="org.jeecg.modules.alarmStatistics.entity.MainCountVo">
+        SELECT count(if(ad.alarm_level!='0',true,null)) as allCount,
+        IFNULL(sum(CASE when ad.alarm_level = '1' then 1 else 0 end),0) as remindCount,
+        IFNULL(sum(CASE when ad.alarm_level = '2' then 1 else 0 end),0) as commonCount,
+        IFNULL(sum(CASE when ad.alarm_level = '3' then 1 else 0 end),0) as warningCount,
+        IFNULL(sum(CASE when ad.alarm_level = '4' then 1 else 0 end),0) as seriousCount
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON kc.code = ad.alarm_type
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="allCount" resultType="java.lang.Integer">
+        SELECT count(if(ad.alarm_level!='0',true,null)) as allCount
+        FROM `alarm_detail` ad
+        INNER JOIN `ky_category` kc ON kc.code = ad.alarm_type
+        <where>
+            <if test="cameraIds!=null and cameraIds.size()!=0">
+                and ad.camera_id in
+                <foreach collection="cameraIds" item="cameraId" index="index" open="(" separator="," close=")">
+                    #{cameraId}
+                </foreach>
+            </if>
+            <if test="categorys!=null and categorys.size()!=0">
+                and kc.id in
+                <foreach collection="categorys" item = "category" index="index" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and ad.alarm_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

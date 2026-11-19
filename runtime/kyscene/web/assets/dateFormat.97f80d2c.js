@@ -1,0 +1,1 @@
+const i=r=>{let e=r?new Date(r):new Date,s=e.getFullYear(),t=e.getMonth()+1,n=e.getDate(),l=e.getHours(),o=e.getMinutes(),a=e.getSeconds();return t<10&&(t="0"+t),n<10&&(n="0"+n),l<0&&(l="0"+l),o<10&&(o="0"+o),a<10&&(a="0"+a),s+"-"+t+"-"+n+" "+l+":"+o+":"+a};export{i as t};

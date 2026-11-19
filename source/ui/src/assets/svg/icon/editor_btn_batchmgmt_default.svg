@@ -1,0 +1,22 @@
+<svg id="editor_btn_batchmgmt_default" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="矩形_6706" data-name="矩形 6706" width="24" height="24" rx="4" fill="none"/>
+  <g id="组_7161" data-name="组 7161" transform="translate(-0.309 0.102)">
+    <path id="路径_3176" data-name="路径 3176" d="M18.142,8.442,12.394,5.979a1,1,0,0,0-.788,0L5.858,8.442a.4.4,0,0,0,0,.735l5.748,2.464a1,1,0,0,0,.788,0l5.748-2.464a.4.4,0,0,0,0-.735ZM12.1,10.135a.25.25,0,0,1-.2,0L8.808,8.81,11.9,7.484a.25.25,0,0,1,.2,0L15.192,8.81Z" fill="#adb4cc"/>
+    <g id="组_7157" data-name="组 7157">
+      <g id="组_7155" data-name="组 7155">
+        <rect id="矩形_6707" data-name="矩形 6707" width="7.499" height="1.5" rx="0.4" transform="translate(5.901 10.776) rotate(23.247)" fill="#adb4cc"/>
+      </g>
+      <g id="组_7156" data-name="组 7156">
+        <rect id="矩形_6708" data-name="矩形 6708" width="7.499" height="1.5" rx="0.4" transform="translate(18.691 12.154) rotate(156.753)" fill="#adb4cc"/>
+      </g>
+    </g>
+    <g id="组_7160" data-name="组 7160">
+      <g id="组_7158" data-name="组 7158">
+        <rect id="矩形_6709" data-name="矩形 6709" width="7.499" height="1.5" rx="0.4" transform="translate(5.901 13.876) rotate(23.247)" fill="#adb4cc"/>
+      </g>
+      <g id="组_7159" data-name="组 7159">
+        <rect id="矩形_6710" data-name="矩形 6710" width="7.499" height="1.5" rx="0.4" transform="translate(18.691 15.254) rotate(156.753)" fill="#adb4cc"/>
+      </g>
+    </g>
+  </g>
+</svg>

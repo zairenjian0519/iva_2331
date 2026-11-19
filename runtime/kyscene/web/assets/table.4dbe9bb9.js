@@ -1,0 +1,1 @@
+import{a6 as o}from"./index.b24b133b.js";var t;(function(e){e.DEMO_LIST="/mock/table/getDemoList"})(t||(t={}));const r=e=>o.get({url:t.DEMO_LIST,params:e,headers:{ignoreCancelToken:!0}});export{r as d};

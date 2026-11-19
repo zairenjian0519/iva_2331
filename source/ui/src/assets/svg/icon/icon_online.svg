@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="23" height="23" viewBox="0 0 23 23">
+  <defs>
+    <filter id="椭圆_74" x="0" y="0" width="23" height="23" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="icon_online" transform="translate(4.5 4.5)">
+    <g id="组_1735" data-name="组 1735" transform="translate(246 -472.117) rotate(90)">
+      <g transform="matrix(0, -1, 1, 0, 467.62, 250.5)" filter="url(#椭圆_74)">
+        <circle id="椭圆_74-2" data-name="椭圆 74" cx="7" cy="7" r="7" transform="translate(18.5 4.5) rotate(90)" fill="#7fc1cc" opacity="0.603"/>
+      </g>
+      <circle id="椭圆_75" data-name="椭圆 75" cx="4" cy="4" r="4" transform="translate(475.117 235)" fill="#7fc1cc"/>
+    </g>
+  </g>
+</svg>

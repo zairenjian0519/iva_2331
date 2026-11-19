@@ -1,0 +1,7 @@
+<svg id="btn_upgrade_default" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <rect id="矩形_6062" data-name="矩形 6062" width="16" height="16" fill="none"/>
+  <g id="组_7121" data-name="组 7121" transform="translate(-4 -3)">
+    <rect id="矩形_6062-2" data-name="矩形 6062" width="14" height="14" transform="translate(5 4)" fill="none"/>
+    <path id="联合_236" data-name="联合 236" d="M5949,19745a1,1,0,0,1-1-1v-4.523a.281.281,0,0,1,.283-.277h.941a.277.277,0,0,1,.277.277v3.775a.25.25,0,0,0,.253.248h8.5a.246.246,0,0,0,.248-.248v-3.807a.248.248,0,0,1,.252-.246h1a.244.244,0,0,1,.248.246V19744a1,1,0,0,1-1,1Zm4-3.6a.207.207,0,0,1-.2-.2v-4.3h2.4v4.3a.2.2,0,0,1-.2.2Zm-2.4-4.5a.247.247,0,0,1-.178-.422l3.4-3.4a.244.244,0,0,1,.352,0l3.395,3.4a.246.246,0,0,1-.173.422Z" transform="translate(-5942 -19728)" fill="#757fa3" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+  </g>
+</svg>

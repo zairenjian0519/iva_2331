@@ -1,0 +1,1 @@
+import{a6 as r}from"./index.b24b133b.js";var e;(function(a){a.alarmTree="/kycategory/kyCategory/categoryTree",a.cameraTree="/cameraManager/cameraManager/cameraTree",a.factoryList="cameraFactory/cameraFactory/factoryList"})(e||(e={}));const c=a=>r.get({url:e.alarmTree,params:a}),m=a=>r.get({url:e.cameraTree,params:a});export{c as a,m as c};

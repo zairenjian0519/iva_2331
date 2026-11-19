@@ -1,0 +1,16 @@
+FROM scratch
+
+ARG BUNDLE_VERSION
+ARG BUNDLE_CREATED
+
+LABEL org.opencontainers.image.title="ai_model_service" \
+      org.opencontainers.image.description="RK3588 RKNN model bundle" \
+      org.opencontainers.image.version="${BUNDLE_VERSION}" \
+      org.opencontainers.image.created="${BUNDLE_CREATED}"
+
+COPY model-holder /model-holder
+COPY models/ /models/rknn/
+
+USER 65532:65532
+WORKDIR /models
+ENTRYPOINT ["/model-holder"]

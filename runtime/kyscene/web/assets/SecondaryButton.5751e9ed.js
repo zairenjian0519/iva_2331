@@ -1,0 +1,1 @@
+import{_ as t}from"./index.b24b133b.js";import{B as o,D as a,E as n,a7 as r,H as _,J as c}from"./vendor.52b903d0.js";const l={class:"secondary-button"},d={class:"label"},p=o({props:{label:null},setup(e){return(s,i)=>(a(),n("div",l,[r(s.$slots,"default",{},void 0,!0),_("span",d,c(e.label),1)]))}});var v=t(p,[["__scopeId","data-v-02f77cbe"]]);export{v as S};

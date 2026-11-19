@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+mode=${1:?usage: iva-wait-ready server-or-engine-or-model [timeout]}
+timeout=${2:-180}
+env_file=/etc/duchun-rk3588-python.env
+[ -r "$env_file" ] || { echo "missing $env_file" >&2; exit 1; }
+# shellcheck source=/dev/null
+. "$env_file"
+
+redis_host=${DUCHUN_REDIS_HOST:-127.0.0.1}
+redis_port=${DUCHUN_REDIS_PORT:-6379}
+redis_db=${DUCHUN_REDIS_DB:-1}
+deadline=$((SECONDS + timeout))
+
+valid_key() {
+    local key=$1 value
+    value=$(redis-cli -h "$redis_host" -p "$redis_port" -n "$redis_db" --raw GET "$key" 2>/dev/null || true)
+    [ -n "$value" ] || return 1
+    VALUE="$value" python3 - <<'PY'
+import json, os
+value = os.environ['VALUE']
+for _ in range(2):
+    value = json.loads(value)
+    if not isinstance(value, str):
+        break
+if value is None or value == [] or value == {}:
+    raise SystemExit(1)
+PY
+}
+
+while [ "$SECONDS" -lt "$deadline" ]; do
+    if [ "$mode" = model ]; then
+        if /usr/local/sbin/ai-model-monitor check-ready server >/dev/null 2>&1; then
+            exit 0
+        fi
+        sleep 2
+        continue
+    fi
+    if curl -fsS --max-time 3 http://127.0.0.1:8088/kyscene/ >/dev/null 2>&1 || \
+       curl -fsS --max-time 3 http://127.0.0.1:8088/kyscene/sys/randomImage/0 >/dev/null 2>&1; then
+        if valid_key system_list_info; then
+            if [ "$mode" = server ]; then
+                exit 0
+            fi
+            if [ "$mode" = engine ] && valid_key camera_list_info && valid_key algorithm_list_info && \
+               curl -fsS --max-time 3 http://127.0.0.1:8899/healthcheck >/dev/null 2>&1; then
+                exit 0
+            fi
+        fi
+    fi
+    sleep 2
+done
+
+echo "timed out waiting for $mode prerequisites" >&2
+exit 1

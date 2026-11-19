@@ -1,0 +1,10 @@
+<svg id="status_icon_inprocess" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#738ce6" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#738ce6"/>
+    </radialGradient>
+  </defs>
+  <path id="路径_3108" data-name="路径 3108" d="M0,0H24V24H0Z" fill="none"/>
+  <path id="路径_3109" data-name="路径 3109" d="M12,2a1,1,0,0,1,1,1V6a1,1,0,0,1-2,0V3A1,1,0,0,1,12,2Zm0,15a1,1,0,0,1,1,1v3a1,1,0,0,1-2,0V18A1,1,0,0,1,12,17Zm10-5a1,1,0,0,1-1,1H18a1,1,0,0,1,0-2h3A1,1,0,0,1,22,12ZM7,12a1,1,0,0,1-1,1H3a1,1,0,0,1,0-2H6A1,1,0,0,1,7,12Zm12.071,7.071a1,1,0,0,1-1.414,0L15.536,16.95a1,1,0,1,1,1.414-1.414l2.121,2.12a1,1,0,0,1,0,1.415ZM8.464,8.464a1,1,0,0,1-1.414,0L4.93,6.344A1,1,0,1,1,6.344,4.929L8.464,7.05a1,1,0,0,1,0,1.414ZM4.93,19.071a1,1,0,0,1,0-1.414l2.121-2.121A1,1,0,1,1,8.465,16.95l-2.12,2.121a1,1,0,0,1-1.415,0ZM15.536,8.464a1,1,0,0,1,0-1.414l2.12-2.121a1,1,0,1,1,1.415,1.414L16.95,8.464a1,1,0,0,1-1.414,0Z" fill="url(#radial-gradient)"/>
+</svg>

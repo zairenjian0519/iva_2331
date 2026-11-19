@@ -1,0 +1,27 @@
+{
+  "schema": "duchen.rk3588.rule-contract.v1",
+  "coordinate_space": "original_camera_frame",
+  "person_minimum": {"width_ratio": 0.092, "height_ratio": 0.052},
+  "roi_rules": {
+    "smoking_phone": {"algorithms": [0, 1], "left_width_ratio": -0.5, "right_width_ratio": 1.5, "bottom_height_ratio": 1.7, "requires": ["hand", "smoking|phone"]},
+    "sleep": {"algorithms": [15], "height_ratio": 0.7, "minimum_person_ratio": 0.5, "positive_class": "sleep"},
+    "reflective_clothes": {"algorithms": [6, 7], "horizontal_padding": 10, "minimum_child_area_ratio": 0.1, "minimum_person_ratio": [0.175, 0.104], "classes": ["reflective", "no_reflective", "uncertain"], "class_aliases": {"reflective": ["refleactive"], "no_reflective": ["no_refleactive"]}, "ignore": ["uncertain"]},
+    "blue_uniform": {"algorithms": [27, 28], "classes": ["blue_uniform", "no_blue_uniform"]},
+    "shoes_gloves_glasses": {"algorithms": [19, 20, 21], "left_width_ratio": -0.5, "right_width_ratio": 1.5, "bottom_height_ratio": 1.5, "classes": ["shoes", "glove", "glass"]}
+  },
+  "special_roles": {
+    "bolt": {"algorithm": 24, "second_role": "bolt_line", "alarm_enabled": false, "reason": "bolt_line model is not available"},
+    "blade": {"algorithm": 25, "stateful": true},
+    "clearance": {"algorithm": 26},
+    "fire_smoke": {"algorithm": 2, "alarm_classes": ["fire", "smoke"], "ignore": ["smoking", "phone"]},
+    "safety_belt": {"algorithms": [3, 16], "classes": ["safety", "uncertain_safety", "no_safety"], "association": "highest-confidence state whose center is inside each primary person", "ignore": ["uncertain_safety"], "missing_detection": "no alarm"},
+    "mask": {"algorithms": [8, 9], "adapter": "classifier", "parent_class": "head", "classes": ["mask", "nomask", "other"]},
+    "insulator_board": {"algorithms": [22, 23]}
+  },
+  "full_frame_rules": {
+    "vehicle": {"algorithm": 18, "ignore": ["person"], "output": "every valid non-person detection box"},
+    "oil_leak": {"algorithm": 29, "classes": 1, "output": "every valid detection box"},
+    "uniform": {"algorithm": 30, "classes": ["person", "workwear"], "rule": "alarm for a person containing no workwear center"},
+    "pipe_oil_leak": {"algorithm": 31, "classes": 1, "output": "every valid detection box"}
+  }
+}

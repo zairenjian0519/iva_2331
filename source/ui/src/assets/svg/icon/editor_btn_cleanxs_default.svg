@@ -1,0 +1,7 @@
+<svg id="editor_btn_cleanxs_default" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+  <rect id="矩形_6070" data-name="矩形 6070" width="12" height="12" fill="none"/>
+  <g id="组_7073" data-name="组 7073" transform="translate(-6 -6.001)">
+    <rect id="矩形_6070-2" data-name="矩形 6070" width="10" height="10" transform="translate(7 7)" fill="none"/>
+    <path id="联合_231" data-name="联合 231" d="M6323.532,18932.756l-3.112-3.107a1.108,1.108,0,0,1,0-1.559l4.667-4.666a1.1,1.1,0,0,1,1.558,0l3.108,3.107a1.1,1.1,0,0,1,0,1.559l-3.987,3.986h4.319v1h-5.671a.9.9,0,0,1-.1,0A1.076,1.076,0,0,1,6323.532,18932.756Zm-2.4-3.963a.1.1,0,0,0,0,.143l3.112,3.117a.1.1,0,0,0,.081.023h0a.1.1,0,0,0,.055-.023l2.979-2.984-3.25-3.25Zm4.666-4.666-.979.984,3.25,3.254.983-.988a.1.1,0,0,0,0-.143l-3.112-3.107a.113.113,0,0,0-.143,0Z" transform="translate(-6313.091 -18916.088)" fill="#adb4cc" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+  </g>
+</svg>
